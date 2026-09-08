@@ -88,7 +88,7 @@ the objective; it enters only through \eqref{eq:horizon}, which converts the bud
 into a horizon. A model charging inspection cost in the objective would instead give
 $R_k = \mathbb{E}[\min(P, R_{k-1})] + c$.
 
-\paragraph{This is a known result.}
+\paragraph{This is a known result for the restricted model.}
 Equation~\eqref{eq:closedform} is not new. Substituting $\mu_k = 1 - u_k$ turns it
 into the classical Cayley--Moser recursion
 $\mu_n = \mathbb{E}[\max(X, \mu_{n-1})] = \tfrac12(1 + \mu_{n-1}^2)$ for uniform
@@ -101,8 +101,11 @@ finite-horizon reservation value is standard in search
 theory~\citep{kohn1974theory,lippman1976job}.
 
 We claim only the instantiation: mapping a multi-resource query budget onto the
-Cayley--Moser horizon, checking the sequence against our solver, and measuring what
-it is worth on merchant data. Appendix~\ref{app:proofs} gives the derivation.
+Cayley--Moser horizon for commit-or-continue episodes, checking the sequence against
+our solver, and measuring what it is worth on merchant data. The classical recurrence
+assumes that a rejected offer is not available for later selection. Persistent-offer
+recall or paid revalidation would add an action and state variable, and is outside the
+current recurrence. Appendix~\ref{app:proofs} gives the derivation.
 
 \subsection{Why the classical secretary rule is the wrong tool here}
 

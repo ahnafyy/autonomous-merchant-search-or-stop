@@ -57,6 +57,15 @@ that online prices are \emph{stickier} than earlier work suggested
 instrument agrees, returning byte-identical catalog responses minutes apart. Neither
 fact turns a catalog response into a transactional commitment.
 
+Stability does, however, create a second decision problem that this benchmark does
+not solve. If an agent may retain an earlier offer, it can either return to it without
+another call or spend resources to revalidate it after searching further. That recall
+or revalidation action belongs in the state and can change the optimal stopping rule.
+Our primary state has no retained offer action: continuing means that the earlier
+observation is not reserved, and the next query is a new observation. The results
+therefore answer the commit-or-continue question, not the broader question of optimal
+search with persistent offers.
+
 The UCP catalog specification likewise says catalog responses are not transactional
 commitments and should not be reused across sessions without re-validation
 ~\citep{ucp2026catalog}. Its checkout specification defines an explicit expiry,

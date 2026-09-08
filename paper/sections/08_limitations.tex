@@ -35,6 +35,17 @@ price. Re-querying a merchant is technically possible; the primary model instead
 assumes that continuing does not reserve the earlier catalog offer. Rate limits are
 assumed rather than published.
 
+\paragraph{Recall and revalidation are unresolved.}
+The daily panel already shows high short-delay catalog survival among the offers that
+could be checked, and repeated scans minutes apart were identical. That evidence makes
+recall consequential, but it does not establish checkout persistence or free recall.
+If an agent can retain an offer, return to it for free, or pay to revalidate it, those
+actions must be represented explicitly. With guaranteed recall, additional feasible
+search can weakly improve the best retained price rather than carrying the same
+irreversibility assumed here. We therefore do not claim that the current
+commit-or-continue rule is optimal for persistent offers; a recall-aware benchmark is
+the next model extension.
+
 \paragraph{The declared-capability assumption.}
 Merchants are included because they advertise the read operation we exercised. This
 is a documented modelling assumption, not case-by-case permission review or explicit
