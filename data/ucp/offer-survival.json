@@ -1,0 +1,27 @@
+{
+  "baseline_date": "2026-09-03",
+  "baseline_offers": 72791,
+  "observations": [
+    {
+      "elapsed_days": 1,
+      "observation_date": "2026-09-04",
+      "offers_checked": 36330,
+      "offers_present": 36132,
+      "survival": 0.99455
+    },
+    {
+      "elapsed_days": 2,
+      "observation_date": "2026-09-05",
+      "offers_checked": 18455,
+      "offers_present": 18408,
+      "survival": 0.997453
+    },
+    {
+      "elapsed_days": 3,
+      "observation_date": "2026-09-06",
+      "offers_checked": 12231,
+      "offers_present": 12201,
+      "survival": 0.997547
+    }
+  ]
+}
