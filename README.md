@@ -16,6 +16,11 @@ merchant and product overlap are ongoing. Future releases will report survival a
 repricing across shorter and longer delays only after those observations are collected
 and evaluated; they are not findings in this release.
 
+**Model boundary.** The evaluated policy is commit-or-continue: an observed catalog
+offer is attempted immediately or not reserved while the agent searches on. A retained
+offer, free return, or paid revalidation requires a different state and action model;
+those policies are not evaluated or claimed here.
+
 **Catalog listings changed across the two observed dates.** Among tracked listings on
 merchants fully paginated in both scans, 5.1% were absent a month later and 7.6% of
 survivors changed catalog price, with a median absolute change of 29%. A repeat scan
@@ -145,7 +150,7 @@ choice as an exact finite-horizon decision problem with:
 
 - adaptive merchant routing;
 - commit-or-continue behavior: accept the observed catalog offer for an immediate
-	purchase attempt, or continue without reserving it;
+  purchase attempt, or continue without reserving it;
 - merchant-specific price and availability forecasts;
 - hard time, token, API-call, API-spend, and purchase-price limits; and
 - an explicit penalty for ending without a purchase.

@@ -38,6 +38,14 @@ We reproduce it in a price-minimization form and verify it against the exact sol
 If you have per-merchant price forecasts rather than a range, `reservation_price`
 runs the exact dynamic program instead and returns a `Fraction`.
 
+## Model boundary
+
+The planner implements commit-or-continue semantics: after an observed catalog offer,
+the host either attempts purchase immediately or continues without reserving that
+offer. It does not model retaining the best offer, returning to an offer for free, or
+paying to revalidate it. Those actions require a recall-aware state model and are not
+covered by the current planner or evidence release.
+
 ## Is it worth using?
 
 The repository's calibrated simulation sweep reports evidence, not a universal

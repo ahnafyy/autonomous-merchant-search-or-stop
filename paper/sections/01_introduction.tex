@@ -22,12 +22,12 @@ oracle and a deliberately broken control.
 Three results, in increasing order of practical usefulness.
 
 \begin{enumerate}
-  \item \textbf{Offers really are ephemeral.} Between the two snapshots,
+  \item \textbf{Catalog listings differ across the two dates.} Between the two snapshots,
     \ResultDelistingRate{} of tracked listings disappeared and
     \ResultPriceChangeRate{} of the survivors changed price. Repeating a scan minutes
-    apart reproduces it exactly, so this is drift in the world and not noise in the
-    instrument. Stopping is therefore a real decision. (Claim
-    \texttt{OFFER-EPHEMERALITY-001}.)
+    apart reproduces it exactly, so this is catalog change rather than noise in the
+    instrument. It does not establish checkout availability, free recall, or the
+    irrecoverability of an earlier offer. (Claim \texttt{OFFER-EPHEMERALITY-001}.)
   \item \textbf{Adaptive stopping wins, but barely.} On
     \ResultHeldOutEpisodeCount{} held-out episodes the adaptive rule beats the
     strongest tuned fixed rule, with the entire bootstrap interval below zero and
@@ -39,8 +39,9 @@ Three results, in increasing order of practical usefulness.
     \ResultMedianPriceDispersionRatio{}. When merchants charge the same price, no
     stopping rule can help. A sweep calibrated to the measured churn and dispersion
     shows adaptive stopping helping only once prices genuinely differ and the budget
-    allows acting on what a query reveals, and \emph{hurting} when the budget is too
-    tight to use the information. (Claim \texttt{NO-ADVANTAGE-REGION-001}.)
+    allows acting on what a query reveals. Fixed rules win in some grid cells at both
+    constrained and full budgets, so the grid does not establish one shared
+    mechanism. (Claim \texttt{NO-ADVANTAGE-REGION-001}.)
 \end{enumerate}
 
 \paragraph{What to take away.}
@@ -54,7 +55,9 @@ economic advantage and when simpler search heuristics suffice.
 Every number in this paper is regenerated from the collected data by the build; none
 are typed by hand. Claims are registered with an executable evaluator before being
 reported, and results derived from simulation are labelled as such wherever they
-appear.
+appear. The primary comparison uses commit-or-continue semantics: continuing does
+not reserve the observed catalog offer. Recall or revalidation requires an additional
+state and action model and is not evaluated here.
 
 \paragraph{Ongoing collection.}
 The two-snapshot analysis reported here is the current evidence release. We are

@@ -10,6 +10,10 @@ Before adding a stopping optimizer, answer three questions about the situation y
 agent is actually in.
 
 \begin{enumerate}
+  \item \textbf{Can you return to an earlier offer?} This paper's rule assumes that
+    continuing does not reserve the observed catalog offer. If the agent can retain,
+    return to, or revalidate an offer, use a recall-aware policy rather than applying
+    this commit-or-continue result directly.
   \item \textbf{Do merchants charge different prices for this product?} Measure the
     ratio of the dearest to the cheapest offer on a sample of real products. Below
     roughly \ResultNoAdvantageDispersionAtOrBelow{}$\times$, price variation is
@@ -25,7 +29,8 @@ agent is actually in.
     one.
 \end{enumerate}
 
-If all three point the same way, the rule is worth implementing, and
+If recall is unavailable or deliberately excluded and the remaining three answers
+point the same way, the rule is worth implementing, and
 Table~\ref{tab:decision} gives the improvement to expect.
 
 \subsection{Design guidance}

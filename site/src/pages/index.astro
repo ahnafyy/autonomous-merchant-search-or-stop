@@ -89,6 +89,7 @@ const acceptanceFractions = [1, 2, 3, 4, 5, 6].map((k) => {
           <span>Study status</span>
           Daily panel observations and weekly discovery runs are ongoing. This release reports the verified
           two-snapshot analysis; later observations will measure how catalog offers change across minutes, hours, and days.
+          The current rule is commit-or-continue, not a retained-offer or revalidation policy.
         </p>
         <div class="author-block">
           <p class="byline">{authorNames}</p>
@@ -270,7 +271,8 @@ const acceptanceFractions = [1, 2, 3, 4, 5, 6].map((k) => {
       </div>
       <p class="section-intro">
         Set the current offer, the shopper's maximum price, and what the agent can still spend on checking other stores.
-        The planner shows the buy-now price and whether searching again is worthwhile.
+        The planner shows the buy-now price and whether searching again is worthwhile. It assumes the current catalog
+        offer is not retained after the agent continues.
       </p>
       <PlanningWorkbench
         merchantForecasts={results.merchant_forecasts}

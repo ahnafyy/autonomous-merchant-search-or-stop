@@ -34,6 +34,14 @@ This recursion is not new: it is the Cayley-Moser problem (Cayley 1875, Moser 19
 If you have per-merchant price forecasts rather than a range, `reservationPrice` runs
 the exact recurrence instead.
 
+## Model boundary
+
+The planner implements commit-or-continue semantics: after an observed catalog offer,
+the host either attempts purchase immediately or continues without reserving that
+offer. It does not model retaining the best offer, returning to an offer for free, or
+paying to revalidate it. Those actions require a recall-aware state model and are not
+covered by the current planner or evidence release.
+
 ## Enforcing budgets
 
 ```js

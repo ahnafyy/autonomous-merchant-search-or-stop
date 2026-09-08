@@ -14,8 +14,8 @@ machinery. That is the gap this project addresses.
 
 ## Research Question
 
-**When does an adaptive stopping rule beat a well-tuned fixed budget for an
-autonomous shopping agent, and when is it not worth the complexity?**
+**When does adaptive commit-or-continue stopping improve on a well-tuned fixed
+budget for an autonomous shopping agent?**
 
 The deliverable is a decision rule an engineer can apply before writing any
 optimizer: given the price dispersion, merchant count, per-query cost, and budget
@@ -49,11 +49,13 @@ availability and price.
   attempts purchase immediately or continues searching. Continuing does not reserve
   the observed catalog offer; a later query is a new observation rather than a
   guaranteed recall of the earlier price or availability.
-- **Held offer (robustness).** The best observed offer stays purchasable until the
-  episode ends.
 - An episode ends with a purchase, an exhausted merchant list, or an exhausted
   budget. Ending without a purchase is an explicit failure carrying a penalty, not
   a free outcome.
+
+Recall, retained offers, and paid revalidation are deliberately outside this
+benchmark. They require a state that records the best observed offer and an action
+model for returning to it; the current study does not evaluate such a policy.
 
 Merchant price and availability forecasts are estimated **only** from the earlier
 calibration snapshot. The later snapshot is frozen as held-out panels. Unqueried
@@ -100,6 +102,8 @@ violations.
 
 - Cross-episode bandit learning during the held-out evaluation.
 - Parallel queries, strategic merchant behavior, and personalized pricing.
+- Recall, retained-offer, or revalidation policies. These are a deferred model
+  extension, not a robustness result in this evidence release.
 - Third-party historical price datasets.
 - Multi-product baskets and multi-attribute utility. Shipping, tax, and returns
   enter only where landed price is completely observed.

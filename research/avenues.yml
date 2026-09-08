@@ -10,9 +10,9 @@ avenues:
       reclaims known unused capacity. Conserving resources preserves later search,
       while overly strict permits can cause truncation, timeout, and purchase failure.
     minimal_model: >-
-      A finite no-recall merchant-search episode with stochastic correlated query
-      usage, enforceable per-call permits, a hard total resource vector, and a hard
-      purchase-price cap.
+      A finite commit-or-continue merchant-search episode with stochastic correlated
+      query usage, enforceable per-call permits, a hard total resource vector, and a
+      hard purchase-price cap. Continuing does not reserve an observed catalog offer.
     novelty_hypothesis: >-
       Treating the merchant and its enforceable observation limit as one online action
       under censored multi-resource feedback may improve purchase quality or success
@@ -74,3 +74,31 @@ avenues:
       Deferred, not rejected. Shipping and tax are not consistently observable in the
       collected snapshots, so landed price cannot be computed for most episodes and a
       multi-attribute extension would rest on imputed components.
+  - id: "AVENUE-004"
+    title: "Recall-aware stopping with retained offers and revalidation"
+    status: deferred
+    mechanism: >-
+      After observing a catalog offer, an agent may retain it, return to it without a
+      new query, or spend resources to revalidate it after further search. The state
+      must record the retained offer and its transition model rather than treating a
+      continued offer as irreversibly unavailable.
+    minimal_model: >-
+      A finite merchant-search episode with a best retained offer, explicit free
+      recall or paid revalidation actions, hard resource budgets, and stochastic
+      price and availability transitions.
+    novelty_hypothesis: >-
+      The relative value of commit-or-continue stopping may reverse when retained
+      offers are available, especially under high short-delay catalog survival. No
+      empirical effect is assumed before a transition model and benchmark are built.
+    decisive_calculation: >-
+      Compare the current commit-or-continue policy with retained-best and
+      revalidation policies on common frozen panels under declared transition
+      scenarios. Reject the avenue if recall changes neither policy ordering nor the
+      decision regions beyond the stated tolerance.
+    expected_value: >-
+      The extension would distinguish the current no-reservation decision rule from
+      a deployable shopping agent that can return to or re-check a prior offer.
+    rejection_reason: >-
+      Deferred, not rejected. The short daily series establishes neither checkout
+      persistence nor a stable price-and-availability transition law for
+      revalidation.
