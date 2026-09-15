@@ -1,27 +1,67 @@
 {
   "baseline_date": "2026-09-03",
   "baseline_offers": 72791,
+  "fixed_fully_observed_cohort": 3958,
+  "missing_observation_dates": [
+    "2026-09-12",
+    "2026-09-13"
+  ],
   "observations": [
     {
       "elapsed_days": 1,
       "observation_date": "2026-09-04",
-      "offers_checked": 36330,
-      "offers_present": 36132,
-      "survival": 0.99455
+      "offers_checked": 3958,
+      "offers_present": 3957,
+      "survival": 0.999747
     },
     {
       "elapsed_days": 2,
       "observation_date": "2026-09-05",
-      "offers_checked": 18455,
-      "offers_present": 18408,
-      "survival": 0.997453
+      "offers_checked": 3958,
+      "offers_present": 3957,
+      "survival": 0.999747
     },
     {
       "elapsed_days": 3,
       "observation_date": "2026-09-06",
-      "offers_checked": 12231,
-      "offers_present": 12201,
-      "survival": 0.997547
+      "offers_checked": 3958,
+      "offers_present": 3957,
+      "survival": 0.999747
+    },
+    {
+      "elapsed_days": 5,
+      "observation_date": "2026-09-08",
+      "offers_checked": 3958,
+      "offers_present": 3941,
+      "survival": 0.995705
+    },
+    {
+      "elapsed_days": 6,
+      "observation_date": "2026-09-09",
+      "offers_checked": 3958,
+      "offers_present": 3925,
+      "survival": 0.991662
+    },
+    {
+      "elapsed_days": 7,
+      "observation_date": "2026-09-10",
+      "offers_checked": 3958,
+      "offers_present": 3916,
+      "survival": 0.989389
+    },
+    {
+      "elapsed_days": 8,
+      "observation_date": "2026-09-11",
+      "offers_checked": 3958,
+      "offers_present": 3881,
+      "survival": 0.980546
+    },
+    {
+      "elapsed_days": 11,
+      "observation_date": "2026-09-14",
+      "offers_checked": 3958,
+      "offers_present": 3880,
+      "survival": 0.980293
     }
   ]
 }

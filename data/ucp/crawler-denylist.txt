@@ -660,3 +660,9 @@ homestorepr.com  # unavailable after 3 attempts: <urlopen error [Errno 8] nodena
 danishdesignstore.com  # unavailable after 3 attempts: The read operation timed out
 hibobbie.com  # unavailable after 3 attempts: The read operation timed out
 teepors.com  # unavailable after 3 attempts: The read operation timed out
+store.miyaradventures.com  # unavailable after 3 attempts: The read operation timed out
+scottishkiltshop.com  # unavailable after 3 attempts: HTTP Error 503: Service Unavailable
+canadiantacklestore.com  # unavailable after 3 attempts: The read operation timed out
+watchpilot.com  # unavailable after 3 attempts: The read operation timed out
+thebookmarkpr.com  # unavailable after 3 attempts: The read operation timed out
+storkcraft.com  # unavailable after 3 attempts: The read operation timed out
