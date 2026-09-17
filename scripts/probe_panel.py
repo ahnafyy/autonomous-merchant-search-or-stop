@@ -52,6 +52,32 @@ def _write_json_atomically(path: Path, value: dict[str, object]) -> None:
     temporary.replace(path)
 
 
+def classify_observations(
+    domain: str,
+    rows: list[dict[str, object]],
+    status: str,
+    skus: set[str],
+) -> tuple[list[dict[str, object]], str]:
+    seen = {str(row["sku"]): row for row in rows}
+    if status not in ("ok", "truncated"):
+        return [], status
+
+    observations = []
+    for sku in sorted(skus):
+        row = seen.get(sku)
+        observations.append(
+            {
+                "sku": sku,
+                "domain": domain,
+                "present": row is not None,
+                "price_amount": row.get("price_amount") if row else None,
+                "price_currency": row.get("price_currency") if row else None,
+                "merchant_fully_paginated": status == "ok",
+            }
+        )
+    return observations, status
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--date", required=True, help="Observation date, YYYY-MM-DD")
@@ -119,30 +145,26 @@ def main(argv: list[str] | None = None) -> int:
         futures = [executor.submit(run_one, item) for item in targets.items()]
         for future in as_completed(futures):
             domain, rows, status, skus = future.result()
-            seen = {row["sku"]: row for row in rows}
+            domain_observations, status = classify_observations(
+                domain, rows, status, skus
+            )
             with lock:
                 domain_status[domain] = status
                 # A tracked offer is only "gone" when the merchant answered.
-                if status in ("ok", "truncated"):
-                    for sku in sorted(skus):
-                        row = seen.get(sku)
-                        observations.append(
-                            {
-                                "sku": sku,
-                                "domain": domain,
-                                "present": row is not None,
-                                "price_amount": row.get("price_amount") if row else None,
-                                "price_currency": (
-                                    row.get("price_currency") if row else None
-                                ),
-                                "merchant_fully_paginated": status == "ok",
-                            }
-                        )
+                observations.extend(domain_observations)
                 completed += 1
                 if completed % 50 == 0 or completed == len(targets):
                     print(f"progress: {completed}/{len(targets)}", file=sys.stderr)
 
     observations.sort(key=lambda row: (row["domain"], row["sku"]))
+    domains_with_present_offers = {
+        str(row["domain"]) for row in observations if row["present"]
+    }
+    zero_overlap_domains = sorted(
+        domain
+        for domain, status in domain_status.items()
+        if status == "ok" and domain not in domains_with_present_offers
+    )
     out = args.data_dir / f"panel-observations-{args.date}.jsonl.gz"
     temporary_out = out.with_suffix(out.suffix + ".partial")
     with gzip.open(temporary_out, "wt", encoding="utf-8") as handle:
@@ -162,6 +184,8 @@ def main(argv: list[str] | None = None) -> int:
         "merchants_fully_paginated": sum(
             1 for status in domain_status.values() if status == "ok"
         ),
+        "merchants_with_zero_tracked_overlap": len(zero_overlap_domains),
+        "zero_tracked_overlap_domains": zero_overlap_domains,
         "offers_checked": len(observations),
         "offers_on_fully_paginated_merchants": len(answered),
         "offers_still_present": present,
@@ -188,6 +212,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"on fully paginated     : {len(answered)}")
         print(f"still present          : {present}")
         print(f"gone                   : {len(answered) - present} ({gone_rate:.2%})")
+    if zero_overlap_domains:
+        print(
+            f"warning: {len(zero_overlap_domains)} fully paginated merchants returned "
+            "zero tracked offers; review for a common-mode catalog discontinuity",
+            file=sys.stderr,
+        )
     print(f"wrote {out} ({out.stat().st_size / 1e6:.2f} MB)")
     return 0
 

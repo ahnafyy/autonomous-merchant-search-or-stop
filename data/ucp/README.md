@@ -117,6 +117,14 @@ page cap than discovery because a merchant truncated at the cap cannot distingui
 "offer gone" from "offer beyond the cap". Consecutive runs are also
 calibration/evaluation pairs, so every day adds another set of replayable episodes.
 
+These observations measure whether an offer is retrievable through the UCP catalog
+interface, not whether the merchant removed it from every sales channel. A coordinated
+change in catalog behavior can therefore resemble simultaneous delisting across many
+merchants. The probe manifest flags fully paginated merchants with zero tracked
+overlap. Dates identified as common-mode protocol discontinuities remain preserved as
+raw observations but are listed with reasons in `offer-survival-exclusions.json` and
+omitted from the derived survival curve.
+
 The **discovery scan** finds new merchants and newly shared products; the daily probe
 cannot, since it only revisits what is already known. It deletes its own raw snapshot
 afterwards, keeping the extracted panel.
@@ -136,11 +144,11 @@ launchctl load ~/Library/LaunchAgents/com.ahnafyy.ucp-weekly-discovery.plist
 
 ## What is versioned and what is not
 
-Git holds manifests, scripts, overlap reports, the crawler denylist, and the
-compressed panels. Raw discovery snapshots are not versioned: one is roughly 770 MB
-uncompressed, and the panel extracted from it is 30 times smaller and is what the
-study actually replays. Regenerate a snapshot with the scan script, or keep it in
-object storage.
+Git holds manifests, scripts, overlap reports, the crawler denylist, compressed
+panels and daily panel observations, and the explicit survival-exclusion ledger. Raw
+discovery snapshots are not versioned: one is roughly 770 MB uncompressed, and the
+panel extracted from it is 30 times smaller and is what the study actually replays.
+Regenerate a snapshot with the scan script, or keep it in object storage.
 
 ## Crawler conduct
 

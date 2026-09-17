@@ -1,7 +1,14 @@
 {
   "baseline_date": "2026-09-03",
   "baseline_offers": 72791,
-  "fixed_fully_observed_cohort": 3958,
+  "excluded_observation_dates": [
+    {
+      "classification": "common_mode_protocol_discontinuity",
+      "observation_date": "2026-09-16",
+      "reason": "Empty-query UCP catalog results collapsed across 103 merchants in one day; exact-SKU rechecks on three high-impact merchants also returned no result, so this measures a coordinated protocol-level retrieval change rather than independently attributable merchant delisting."
+    }
+  ],
+  "fixed_fully_observed_cohort": 3850,
   "missing_observation_dates": [
     "2026-09-12",
     "2026-09-13"
@@ -10,58 +17,65 @@
     {
       "elapsed_days": 1,
       "observation_date": "2026-09-04",
-      "offers_checked": 3958,
-      "offers_present": 3957,
-      "survival": 0.999747
+      "offers_checked": 3850,
+      "offers_present": 3849,
+      "survival": 0.99974
     },
     {
       "elapsed_days": 2,
       "observation_date": "2026-09-05",
-      "offers_checked": 3958,
-      "offers_present": 3957,
-      "survival": 0.999747
+      "offers_checked": 3850,
+      "offers_present": 3849,
+      "survival": 0.99974
     },
     {
       "elapsed_days": 3,
       "observation_date": "2026-09-06",
-      "offers_checked": 3958,
-      "offers_present": 3957,
-      "survival": 0.999747
+      "offers_checked": 3850,
+      "offers_present": 3849,
+      "survival": 0.99974
     },
     {
       "elapsed_days": 5,
       "observation_date": "2026-09-08",
-      "offers_checked": 3958,
-      "offers_present": 3941,
-      "survival": 0.995705
+      "offers_checked": 3850,
+      "offers_present": 3833,
+      "survival": 0.995584
     },
     {
       "elapsed_days": 6,
       "observation_date": "2026-09-09",
-      "offers_checked": 3958,
-      "offers_present": 3925,
-      "survival": 0.991662
+      "offers_checked": 3850,
+      "offers_present": 3817,
+      "survival": 0.991429
     },
     {
       "elapsed_days": 7,
       "observation_date": "2026-09-10",
-      "offers_checked": 3958,
-      "offers_present": 3916,
-      "survival": 0.989389
+      "offers_checked": 3850,
+      "offers_present": 3808,
+      "survival": 0.989091
     },
     {
       "elapsed_days": 8,
       "observation_date": "2026-09-11",
-      "offers_checked": 3958,
-      "offers_present": 3881,
-      "survival": 0.980546
+      "offers_checked": 3850,
+      "offers_present": 3773,
+      "survival": 0.98
     },
     {
       "elapsed_days": 11,
       "observation_date": "2026-09-14",
-      "offers_checked": 3958,
-      "offers_present": 3880,
-      "survival": 0.980293
+      "offers_checked": 3850,
+      "offers_present": 3776,
+      "survival": 0.980779
+    },
+    {
+      "elapsed_days": 12,
+      "observation_date": "2026-09-15",
+      "offers_checked": 3850,
+      "offers_present": 3680,
+      "survival": 0.955844
     }
   ]
 }
