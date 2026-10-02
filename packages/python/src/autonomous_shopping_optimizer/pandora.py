@@ -2,9 +2,112 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
 from fractions import Fraction
+from typing import Any
 
 RESOURCE_FIELDS = ("time_ms", "tokens", "api_calls", "api_cost_minor")
 CostNumber = int | Fraction
+
+
+def recalled_search_tool_schema() -> dict[str, object]:
+    """Return a JSON-schema tool definition for vendor-neutral LLM tool loops."""
+    quantities = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "time_ms": {"type": "integer", "minimum": 0},
+            "tokens": {"type": "integer", "minimum": 0},
+            "api_calls": {"type": "integer", "minimum": 0},
+            "api_cost_minor": {"type": "integer", "minimum": 0},
+        },
+    }
+    shadow_prices = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "time_ms": {"type": "number", "minimum": 0},
+            "tokens": {"type": "number", "minimum": 0},
+            "api_calls": {"type": "number", "minimum": 0},
+            "api_cost_minor": {"type": "number", "minimum": 0},
+        },
+    }
+    return {
+        "name": "decide_recalled_search",
+        "description": (
+            "Decide whether another seller inspection is worth its declared cost after "
+            "retaining the best observed offer. Returns SEARCH or STOP; never dispatches "
+            "a merchant tool or executes a purchase. Monetary values are USD minor units."
+        ),
+        "input_schema": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": [
+                "current_best_minor",
+                "price_samples_minor",
+                "resources",
+                "remaining_budget",
+            ],
+            "properties": {
+                "current_best_minor": {"type": "integer", "minimum": 1},
+                "price_samples_minor": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "integer", "minimum": 1},
+                },
+                "resources": quantities,
+                "shadow_prices": shadow_prices,
+                "remaining_budget": quantities,
+            },
+        },
+    }
+
+
+def run_recalled_search_tool(tool_input: Mapping[str, object]) -> dict[str, object]:
+    """Execute a validated JSON-tool payload without owning host-side side effects."""
+    required = ("current_best_minor", "price_samples_minor", "resources", "remaining_budget")
+    missing = [field for field in required if field not in tool_input]
+    if missing:
+        raise ValueError(f"missing tool fields: {', '.join(missing)}")
+    allowed = {*required, "shadow_prices"}
+    unexpected = sorted(set(tool_input) - allowed)
+    if unexpected:
+        raise ValueError(f"unexpected tool fields: {', '.join(unexpected)}")
+    current_best = tool_input["current_best_minor"]
+    prices = tool_input["price_samples_minor"]
+    if not isinstance(current_best, int) or isinstance(current_best, bool):
+        raise ValueError("current_best_minor must be an integer")
+    if not isinstance(prices, list):
+        raise ValueError("price_samples_minor must be an array")
+    return pandora_decision(
+        current_best_minor=current_best,
+        price_samples=prices,
+        resources=_tool_resources(tool_input["resources"], "resources"),
+        shadow_prices=_tool_resources(
+            tool_input.get("shadow_prices", {}), "shadow_prices", allow_fraction=True
+        ),
+        remaining_budget=_tool_resources(tool_input["remaining_budget"], "remaining_budget"),
+    )
+
+
+def _tool_resources(
+    values: object, name: str, *, allow_fraction: bool = False
+) -> dict[str, CostNumber]:
+    if not isinstance(values, Mapping):
+        raise ValueError(f"{name} must be an object")
+    unexpected = sorted(set(values) - set(RESOURCE_FIELDS))
+    if unexpected:
+        raise ValueError(f"unexpected {name} fields: {', '.join(unexpected)}")
+    parsed: dict[str, CostNumber] = {}
+    for field in RESOURCE_FIELDS:
+        value = values.get(field, 0)
+        if isinstance(value, bool):
+            raise ValueError(f"{name}.{field} must be non-negative")
+        if allow_fraction and isinstance(value, int | float):
+            parsed[field] = Fraction(str(value))
+        elif not allow_fraction and isinstance(value, int):
+            parsed[field] = value
+        else:
+            raise ValueError(f"{name}.{field} has an invalid type")
+    return parsed
 
 
 def scalarized_inspection_cost(
@@ -86,6 +189,43 @@ def pandora_decision(
         "shadow_prices": {key: float(value) for key, value in prices.items()},
         "remaining_budget": {key: float(value) for key, value in budget.items()},
     }
+
+
+class RecalledSearchHook:
+    """Host-callable decision hook for an LLM or tool-calling shopping loop.
+
+    The host supplies its calibrated next-price samples and calls ``after_offer``
+    after each observed seller offer. The hook neither dispatches tools nor mutates
+    budgets; it only returns the deterministic SEARCH or STOP decision.
+    """
+
+    def __init__(
+        self,
+        *,
+        price_samples_minor: Iterable[int],
+        shadow_prices: Mapping[str, CostNumber],
+    ) -> None:
+        self._price_samples = _price_samples(price_samples_minor)
+        self._shadow_prices = _resource_vector(shadow_prices, "shadow_prices")
+
+    def after_offer(
+        self,
+        *,
+        current_best_minor: int,
+        next_inspection_resources: Mapping[str, CostNumber],
+        remaining_budget: Mapping[str, CostNumber],
+    ) -> dict[str, object]:
+        """Return SEARCH or STOP for the next inspection after an observed offer."""
+        return pandora_decision(
+            current_best_minor=current_best_minor,
+            price_samples=self._price_samples,
+            resources=next_inspection_resources,
+            shadow_prices=self._shadow_prices,
+            remaining_budget=remaining_budget,
+        )
+
+    def __call__(self, **kwargs: Any) -> dict[str, object]:
+        return self.after_offer(**kwargs)
 
 
 def pandora_cost_table() -> dict[str, object]:

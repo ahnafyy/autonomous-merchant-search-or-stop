@@ -27,8 +27,6 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
     assert manifest["all_executable_claims_passed"] is True
     assert "results.json" in manifest["files"]
     assert "conformance/merchant-search.json" in manifest["files"]
-    assert "figures/shopify_deck_funnel.pdf" in manifest["files"]
-    assert "figures/ucp_cost_sensitivity.pdf" in manifest["files"]
     site_data = json.loads((first / "site-data.json").read_text(encoding="utf-8"))
     assert site_data["results"]["study_design"] == "source_stratified_recalled_pandora_search"
     assert site_data["results"]["empirical_claims_ready"] is False
@@ -97,6 +95,7 @@ def test_generated_tex_can_be_staged(tmp_path: Path) -> None:
     project.mkdir()
     build(ROOT, project / "artifacts")
     (project / "paper" / "generated").mkdir(parents=True)
+    (project / "artifacts" / "figures").mkdir()
     (project / "artifacts" / "figures" / "fixture.pdf").write_bytes(b"figure")
     for name in ("project_metadata.tex", "result_macros.tex", "claim_status.tex"):
         source = project / "artifacts" / "tables" / name

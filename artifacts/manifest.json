@@ -10,12 +10,8 @@
   "files": {
     "claim-results.json": "cdee0440f14532bd5a29b415b3d7408eaa09af57188b38e8ee9c3ee3bb7ef0c8",
     "conformance/closed-form.json": "e74707bef1d61443e8f023eecccb5429f2c87f5054a9f9d5cf8876560db8d670",
-    "conformance/merchant-search.json": "8d42ae2a7c254fd1a64d1757ba30a67f93a065a79c307081586ae44170375a1e",
+    "conformance/merchant-search.json": "45df9253be3382e2fd79a666ab717d17aa68c7e21c8c908cd9a051990a4e68a7",
     "data/summary.csv": "bdaf4a9985d8e610ac380457e467e52b5a2bdba5536014109f965febdd0387d6",
-    "figures/shopify_deck_funnel.pdf": "1c626a3b109ffc8b7e6a642e17f84de7a791202b0f026ac24123bb5372a32c03",
-    "figures/shopify_deck_funnel.png": "24120b6bc5072bc579cae6204ffc37ee8623c7a70c74290165f637ef422e9d3b",
-    "figures/ucp_cost_sensitivity.pdf": "4484f4d171e12b822e7250c387d08c52f9525d334b7cb852099e5dfa58011088",
-    "figures/ucp_cost_sensitivity.png": "9caa53658a0ea723da58f4101c2f85c7a0ff02e70a32e16194411bb4558481e6",
     "results.json": "c98242abd7efeca19bdb1622c5c9e202e2d8f8551b89bcb29e5e0b35d7eba52e",
     "site-data.json": "dfac9ed8574edb31a3cad0aef5181b18ab5bce8a8e59743d52d1c3defc4af774",
     "tables/claim_status.tex": "c477f81d1684db1126133503528e156996a1382f84e2f34b8543a38bc095722a",

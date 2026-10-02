@@ -1,10 +1,13 @@
 from fractions import Fraction
 
 from autonomous_shopping_optimizer.pandora import (
+    RecalledSearchHook,
     empirical_reservation_price,
     expected_improvement,
     pandora_cost_table,
     pandora_decision,
+    recalled_search_tool_schema,
+    run_recalled_search_tool,
     scalarized_inspection_cost,
 )
 
@@ -52,3 +55,35 @@ def test_cost_table_contains_both_stop_and_search_actions() -> None:
     assert table["rows"][1]["inspection_cost_minor"] == 1021.0
     for row in table["rows"]:
         assert sum(row["cost_components_minor"].values()) == row["inspection_cost_minor"]
+
+
+def test_recalled_search_hook_is_host_callable_after_each_offer() -> None:
+    hook = RecalledSearchHook(
+        price_samples_minor=[80, 90, 110, 120], shadow_prices={"api_calls": 2}
+    )
+
+    result = hook(
+        current_best_minor=100,
+        next_inspection_resources={"api_calls": 1},
+        remaining_budget={"api_calls": 1},
+    )
+
+    assert result["action"] == "SEARCH"
+    assert result["net_value_minor"] == 5.5
+
+
+def test_recalled_search_tool_schema_and_adapter_are_vendor_neutral() -> None:
+    schema = recalled_search_tool_schema()
+    result = run_recalled_search_tool(
+        {
+            "current_best_minor": 100,
+            "price_samples_minor": [80, 90, 110, 120],
+            "resources": {"api_calls": 1},
+            "shadow_prices": {"api_calls": 2.5},
+            "remaining_budget": {"api_calls": 1},
+        }
+    )
+
+    assert schema["name"] == "decide_recalled_search"
+    assert result["action"] == "SEARCH"
+    assert result["inspection_cost_minor"] == 2.5

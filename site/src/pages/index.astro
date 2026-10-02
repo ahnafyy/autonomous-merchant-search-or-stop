@@ -1,5 +1,6 @@
 ---
 import ClaimLedger from "../components/ClaimLedger.astro";
+import RecalledSearchWorkbench from "../components/RecalledSearchWorkbench.astro";
 import ResearchLayout from "../layouts/ResearchLayout.astro";
 import data from "../generated/site-data.json";
 
@@ -83,10 +84,7 @@ const studyRows = shopify.cost_results ?? [];
           </tbody>
         </table>
       </div>
-      <figure class="research-figure">
-        <img src="/figures/ucp_cost_sensitivity.png" alt="Interval plot of adaptive minus search-all total cost across five inspection-cost multipliers." loading="lazy" />
-        <figcaption>UCP held-out cost sensitivity. Negative differences favor adaptive stopping; intervals are clustered by SKU.</figcaption>
-      </figure>
+      <RecalledSearchWorkbench />
     </section>
 
     <section class="section" id="sources" aria-labelledby="sources-title">
@@ -98,10 +96,6 @@ const studyRows = shopify.cost_results ?? [];
         <div class="prose"><h3>Shopify Global Catalog</h3><p>{shopify.product_deck_count} title-normalized USD seller decks and {shopify.seller_card_count} seller cards support the held-out study: {shopify.calibration_product_count} decks calibrate policies and {shopify.held_out_product_count} product clusters are held out. The evidence is a recovered complete prefix of {shopify.completed_query_count} of {shopify.planned_query_count} registered deep queries. Title identity was revised after collection, and shop domains do not prove independent companies or checkout equivalence.</p></div>
         <div class="prose"><h3>UCP Direct Merchant Panels</h3><p>{ucp.included_lifecycle_dates.length} lifecycle dates are retained, while {Object.keys(ucp.excluded_dates).length} common-mode discontinuity is excluded. These observations document catalog surface quality, not Pandora policy performance.</p></div>
       </div>
-      <figure class="research-figure">
-        <img src="/figures/shopify_deck_funnel.png" alt="Log-scale funnel from captured Shopify offers to matched seller decks." loading="lazy" />
-        <figcaption>Deep Shopify snapshot funnel. Exact same-model seller overlap, rather than raw offer volume, limits replayable decks.</figcaption>
-      </figure>
     </section>
 
     <section class="section" id="claims" aria-labelledby="claims-title">

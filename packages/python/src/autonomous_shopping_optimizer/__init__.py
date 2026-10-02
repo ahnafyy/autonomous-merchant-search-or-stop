@@ -67,10 +67,13 @@ from autonomous_shopping_optimizer.middleware import (
     ShoppingAgentMiddleware,
 )
 from autonomous_shopping_optimizer.pandora import (
+    RecalledSearchHook,
     empirical_reservation_price,
     expected_improvement,
     pandora_cost_table,
     pandora_decision,
+    recalled_search_tool_schema,
+    run_recalled_search_tool,
     scalarized_inspection_cost,
 )
 from autonomous_shopping_optimizer.panels import (
@@ -148,6 +151,7 @@ __all__ = [
     "ResourceBudget",
     "ResourceUsage",
     "ResourceVector",
+    "RecalledSearchHook",
     "SellerCard",
     "SellerDeck",
     "SearchOutcome",
@@ -183,12 +187,14 @@ __all__ = [
     "oracle_hidden_card",
     "pandora_cost_table",
     "pandora_decision",
+    "recalled_search_tool_schema",
     "paired_bootstrap",
     "query_cost_vector",
     "reservation_price",
     "replay_fixed_depth",
     "replay_hidden_cards",
     "run_arm",
+    "run_recalled_search_tool",
     "run_real_study",
     "run_hidden_card_study",
     "run_simulation_sweep",

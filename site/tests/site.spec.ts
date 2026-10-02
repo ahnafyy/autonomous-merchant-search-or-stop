@@ -27,6 +27,11 @@ test("renders verified research content without overflow", async ({ page }, test
   expect(await decisionRows.count()).toBeGreaterThan(0);
   await expect(page.getByText("No reliable improvement", { exact: true }).first()).toBeVisible();
 
+  const interactiveDecision = page.locator("[data-recalled-workbench]");
+  await expect(interactiveDecision.getByText("Search again", { exact: true })).toBeVisible();
+  await interactiveDecision.getByLabel("Tool/API spend").fill("10.00");
+  await expect(interactiveDecision.getByText("Buy now", { exact: true })).toBeVisible();
+
   const overflows = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(overflows).toBe(false);
   expect(consoleErrors).toEqual([]);

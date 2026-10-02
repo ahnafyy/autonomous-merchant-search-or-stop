@@ -54,6 +54,82 @@ stopping.
 commit-or-continue API: continuing does not retain an observed offer. They are not
 the policy benchmark reported by the current paper.
 
+## Recalled-search hook for LLM tool loops
+
+Use `RecalledSearchHook` after each seller tool result when the agent can retain its
+best observed offer. The hook implements the reported rule exactly:
+
+```text
+SEARCH iff the next inspection fits the remaining budget
+     and E[max(best retained offer - next price, 0)] > inspection cost
+```
+
+Prices and API spend are integer USD minor units. Resource shadow prices may be exact
+fractions: `time_ms` is a millisecond quantity whose shadow price is minor units per
+second, and `tokens` is charged in minor units per thousand tokens. The host supplies
+calibrated samples for the next seller, then owns tool dispatch, actual-usage charging,
+credentials, and purchase execution.
+
+```python
+from autonomous_shopping_optimizer import RecalledSearchHook
+
+after_offer = RecalledSearchHook(
+  price_samples_minor=[8_900, 9_400, 10_200, 11_100],
+  shadow_prices={"time_ms": 8, "api_calls": 2},
+)
+
+decision = after_offer(
+  current_best_minor=10_000,
+  next_inspection_resources={"time_ms": 12_000, "api_calls": 1, "api_cost_minor": 18},
+  remaining_budget={"time_ms": 45_000, "api_calls": 3, "api_cost_minor": 100},
+)
+if decision["action"] == "SEARCH":
+  next_seller = call_seller_tool()  # Host responsibility.
+else:
+  buy_best_retained_offer()         # Host responsibility.
+```
+
+`decision` contains the `expected_saving_minor`, each cost component,
+`inspection_cost_minor`, `net_value_minor`, feasibility, and reservation price for
+logging or an LLM tool response. Do not use seller observations from one product as
+the calibrated price sample for another product.
+
+### OpenAI/ChatGPT and Claude tool registration
+
+`recalled_search_tool_schema()` returns a vendor-neutral name, description, and JSON
+input schema. `run_recalled_search_tool()` executes exactly that payload. Adapt only
+the outer tool envelope at the SDK boundary; no provider SDK is required.
+
+```python
+from autonomous_shopping_optimizer import (
+  recalled_search_tool_schema,
+  run_recalled_search_tool,
+)
+
+schema = recalled_search_tool_schema()
+
+# OpenAI Chat Completions-style registration:
+openai_tool = {
+  "type": "function",
+  "function": {
+    "name": schema["name"],
+    "description": schema["description"],
+    "parameters": schema["input_schema"],
+    "strict": True,
+  },
+}
+
+# Anthropic Messages-style registration:
+claude_tool = schema
+
+# When either model emits decide_recalled_search arguments:
+decision = run_recalled_search_tool(model_tool_arguments)
+```
+
+Treat the model as a caller, not as the decision implementation. Validate seller
+identity and a calibrated same-product price sample before calling the tool, enforce
+the actual tool permit separately, and never let model output authorize a purchase.
+
 ## Evidence boundary
 
 The frozen Shopify seller-deck study has 40 product decks: 24 calibration decks and
@@ -108,6 +184,14 @@ instances only; that is not a general optimality proof, and it does not cover ad
 merchant routing. The closed-form recursion is a known result reproduced here, not a
 new one. Permit safety is supported by observing zero violations across every replayed
 episode, which is evidence rather than a proof.
+
+## Runtime API boundary
+
+For production agent integrations, depend on `RecalledSearchHook`,
+`recalled_search_tool_schema`, `run_recalled_search_tool`, `PermitLedger`, and the
+legacy planner APIs only. Dataset readers, replay studies, bootstrap procedures, and
+catalog-deck builders are reproducibility and research APIs; they are not required for
+the runtime hook and may need a repository checkout with frozen study data.
 
 Neither this package nor the npm package is published to a registry yet. Install from
 source, or from a built wheel.
