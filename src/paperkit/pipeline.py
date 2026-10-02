@@ -13,14 +13,15 @@ from typing import Any
 from paperkit import __version__
 from paperkit.claims import evaluate_claims, load_claims
 from paperkit.config import ProjectConfig, load_yaml
+from paperkit.figures import render_study_figures
 from paperkit.publication import (
-    render_arm_table,
     render_bibliography,
     render_claim_table,
-    render_decision_table,
-    render_episode_feature_table,
+    render_pandora_study_table,
     render_project_metadata,
-    render_rule_table,
+    render_source_table,
+    render_ucp_cost_sensitivity_table,
+    render_ucp_pandora_study_table,
 )
 
 
@@ -285,21 +286,22 @@ def build(root: Path, output_dir: Path | None = None) -> Path:
         (staging / "tables" / "claim_status.tex").write_text(
             render_claim_table(claims), encoding="utf-8"
         )
-        (staging / "tables" / "decision_table.tex").write_text(
-            render_decision_table(results), encoding="utf-8"
+        (staging / "tables" / "pandora_study.tex").write_text(
+            render_pandora_study_table(results), encoding="utf-8"
         )
-        (staging / "tables" / "arm_comparison.tex").write_text(
-            render_arm_table(results), encoding="utf-8"
+        (staging / "tables" / "ucp_pandora_study.tex").write_text(
+            render_ucp_pandora_study_table(results), encoding="utf-8"
         )
-        (staging / "tables" / "episode_features.tex").write_text(
-            render_episode_feature_table(results), encoding="utf-8"
+        (staging / "tables" / "ucp_cost_sensitivity.tex").write_text(
+            render_ucp_cost_sensitivity_table(results), encoding="utf-8"
         )
-        (staging / "tables" / "rule_comparison.tex").write_text(
-            render_rule_table(results), encoding="utf-8"
+        (staging / "tables" / "source_context.tex").write_text(
+            render_source_table(results), encoding="utf-8"
         )
         (staging / "tables" / "references.bib").write_text(
             render_bibliography(root / "research" / "literature.yml"), encoding="utf-8"
         )
+        render_study_figures(results, staging / "figures")
 
         files = sorted(path for path in staging.rglob("*") if path.is_file())
         manifest = {

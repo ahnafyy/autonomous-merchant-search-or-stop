@@ -7,10 +7,10 @@ as far as the literature review found, unmeasured: the hazard rate at which an
 offer stops being available at all.
 
 Reads every `panel-observations-*.jsonl.gz` and reports, per elapsed day, the
-share of a fixed, fully observed baseline cohort still retrievable through UCP.
-An offer is in the cohort only when its merchant was fully paginated on every
-included date. Explicit observation-date exclusions and their reasons live in
-`offer-survival-exclusions.json` so protocol discontinuities remain auditable.
+share of a fixed, fully observed baseline cohort still present. An observation
+date is excluded when no baseline offer can be checked fully; an offer is in the
+cohort only when its merchant was fully paginated on every included date. This
+prevents changing daily reachability from being mistaken for offer disappearance.
 """
 from __future__ import annotations
 
@@ -29,26 +29,6 @@ def _load(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
             row = json.loads(line)
             rows[(row["domain"], row["sku"])] = row
     return rows
-
-
-def _load_exclusions(data_dir: Path) -> dict[str, dict[str, str]]:
-    path = data_dir / "offer-survival-exclusions.json"
-    if not path.is_file():
-        return {}
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(payload, dict):
-        raise ValueError(f"{path} must contain an object keyed by observation date")
-    for observation_date, details in payload.items():
-        date.fromisoformat(observation_date)
-        if (
-            not isinstance(details, dict)
-            or not isinstance(details.get("classification"), str)
-            or not isinstance(details.get("reason"), str)
-        ):
-            raise ValueError(
-                f"{path}: {observation_date} must have classification and reason strings"
-            )
-    return payload
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -71,16 +51,6 @@ def main(argv: list[str] | None = None) -> int:
     baseline = _load(baseline_path)
     baseline_date = observed_on(baseline_path)
     start = {key for key, row in baseline.items() if row["present"]}
-    exclusions = _load_exclusions(args.data_dir)
-    observed_dates = {observed_on(path).isoformat() for path in files}
-    unknown_exclusions = sorted(set(exclusions) - observed_dates)
-    if unknown_exclusions:
-        raise ValueError(
-            "exclusions do not match observation files: "
-            + ", ".join(unknown_exclusions)
-        )
-    if baseline_date.isoformat() in exclusions:
-        raise ValueError("the baseline observation date cannot be excluded")
 
     print(f"baseline {baseline_date}: {len(start)} offers present\n")
     header = (
@@ -90,11 +60,7 @@ def main(argv: list[str] | None = None) -> int:
     print(header)
 
     rows: list[dict[str, Any]] = []
-    loaded = [
-        (path, _load(path))
-        for path in files[1:]
-        if observed_on(path).isoformat() not in exclusions
-    ]
+    loaded = [(path, _load(path)) for path in files[1:]]
     included = [
         (path, current)
         for path, current in loaded
@@ -143,10 +109,6 @@ def main(argv: list[str] | None = None) -> int:
     payload = {
         "baseline_date": baseline_date.isoformat(),
         "baseline_offers": len(start),
-        "excluded_observation_dates": [
-            {"observation_date": observation_date, **exclusions[observation_date]}
-            for observation_date in sorted(exclusions)
-        ],
         "fixed_fully_observed_cohort": len(cohort),
         "missing_observation_dates": missing_dates,
         "observations": rows,

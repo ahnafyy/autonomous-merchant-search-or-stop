@@ -52,32 +52,6 @@ def _write_json_atomically(path: Path, value: dict[str, object]) -> None:
     temporary.replace(path)
 
 
-def classify_observations(
-    domain: str,
-    rows: list[dict[str, object]],
-    status: str,
-    skus: set[str],
-) -> tuple[list[dict[str, object]], str]:
-    seen = {str(row["sku"]): row for row in rows}
-    if status not in ("ok", "truncated"):
-        return [], status
-
-    observations = []
-    for sku in sorted(skus):
-        row = seen.get(sku)
-        observations.append(
-            {
-                "sku": sku,
-                "domain": domain,
-                "present": row is not None,
-                "price_amount": row.get("price_amount") if row else None,
-                "price_currency": row.get("price_currency") if row else None,
-                "merchant_fully_paginated": status == "ok",
-            }
-        )
-    return observations, status
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--date", required=True, help="Observation date, YYYY-MM-DD")
@@ -93,6 +67,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--delay-seconds", type=float, default=1.0)
     parser.add_argument("--request-timeout-seconds", type=float, default=10.0)
     parser.add_argument("--max-domain-seconds", type=float, default=90.0)
+    parser.add_argument(
+        "--time-value-minor-per-minute",
+        type=int,
+        default=500,
+        help="Declared opportunity-cost valuation; 500 means USD 5.00 per minute.",
+    )
     parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
     args = parser.parse_args(argv)
 
@@ -117,11 +97,13 @@ def main(argv: list[str] | None = None) -> int:
 
     observations: list[dict[str, object]] = []
     domain_status: dict[str, str] = {}
+    domain_elapsed_ms: dict[str, int] = {}
     lock = threading.Lock()
     completed = 0
 
     def run_one(item: tuple[str, set[str]]):
         domain, skus = item
+        started_at = time.monotonic()
         try:
             rows, status = deep_scan_domain(
                 domain,
@@ -135,36 +117,41 @@ def main(argv: list[str] | None = None) -> int:
         except MerchantRefused as refusal:
             with lock:
                 record_refusal(domain, str(refusal.status))
-            return domain, [], f"refused:{refusal.status}", skus
+            return domain, [], f"refused:{refusal.status}", skus, started_at
         except Exception as exc:  # noqa: BLE001 - one bad merchant must not stop the run
             print(f"error on {domain}: {type(exc).__name__}: {exc}", file=sys.stderr)
-            return domain, [], f"error:{type(exc).__name__}", skus
-        return domain, rows, status, skus
+            return domain, [], f"error:{type(exc).__name__}", skus, started_at
+        return domain, rows, status, skus, started_at
 
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = [executor.submit(run_one, item) for item in targets.items()]
         for future in as_completed(futures):
-            domain, rows, status, skus = future.result()
-            domain_observations, status = classify_observations(
-                domain, rows, status, skus
-            )
+            domain, rows, status, skus, started_at = future.result()
+            seen = {row["sku"]: row for row in rows}
             with lock:
                 domain_status[domain] = status
+                domain_elapsed_ms[domain] = round((time.monotonic() - started_at) * 1000)
                 # A tracked offer is only "gone" when the merchant answered.
-                observations.extend(domain_observations)
+                if status in ("ok", "truncated"):
+                    for sku in sorted(skus):
+                        row = seen.get(sku)
+                        observations.append(
+                            {
+                                "sku": sku,
+                                "domain": domain,
+                                "present": row is not None,
+                                "price_amount": row.get("price_amount") if row else None,
+                                "price_currency": (
+                                    row.get("price_currency") if row else None
+                                ),
+                                "merchant_fully_paginated": status == "ok",
+                            }
+                        )
                 completed += 1
                 if completed % 50 == 0 or completed == len(targets):
                     print(f"progress: {completed}/{len(targets)}", file=sys.stderr)
 
     observations.sort(key=lambda row: (row["domain"], row["sku"]))
-    domains_with_present_offers = {
-        str(row["domain"]) for row in observations if row["present"]
-    }
-    zero_overlap_domains = sorted(
-        domain
-        for domain, status in domain_status.items()
-        if status == "ok" and domain not in domains_with_present_offers
-    )
     out = args.data_dir / f"panel-observations-{args.date}.jsonl.gz"
     temporary_out = out.with_suffix(out.suffix + ".partial")
     with gzip.open(temporary_out, "wt", encoding="utf-8") as handle:
@@ -184,13 +171,19 @@ def main(argv: list[str] | None = None) -> int:
         "merchants_fully_paginated": sum(
             1 for status in domain_status.values() if status == "ok"
         ),
-        "merchants_with_zero_tracked_overlap": len(zero_overlap_domains),
-        "zero_tracked_overlap_domains": zero_overlap_domains,
         "offers_checked": len(observations),
         "offers_on_fully_paginated_merchants": len(answered),
         "offers_still_present": present,
         "offers_gone": len(answered) - present,
         "domain_status": dict(sorted(domain_status.items())),
+        "domain_elapsed_ms": dict(sorted(domain_elapsed_ms.items())),
+        "elapsed_ms_total": sum(domain_elapsed_ms.values()),
+        "time_value_minor_per_minute": args.time_value_minor_per_minute,
+        "declared_time_cost_minor_numerator": (
+            sum(domain_elapsed_ms.values()) * args.time_value_minor_per_minute
+        ),
+        "declared_time_cost_minor_denominator": 60_000,
+        "cost_assumption_status": "declared_time_value; direct-merchant API spend unobserved",
     }
     manifest_path = args.data_dir / f"panel-observations-{args.date}.manifest.json"
     _write_json_atomically(manifest_path, manifest)
@@ -212,12 +205,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"on fully paginated     : {len(answered)}")
         print(f"still present          : {present}")
         print(f"gone                   : {len(answered) - present} ({gone_rate:.2%})")
-    if zero_overlap_domains:
-        print(
-            f"warning: {len(zero_overlap_domains)} fully paginated merchants returned "
-            "zero tracked offers; review for a common-mode catalog discontinuity",
-            file=sys.stderr,
-        )
     print(f"wrote {out} ({out.stat().st_size / 1e6:.2f} MB)")
     return 0
 

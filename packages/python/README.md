@@ -1,12 +1,13 @@
 # Autonomous Shopping Optimizer
 
-Decide when an autonomous shopping agent should stop searching and buy, under hard
-time, token, API-call, and spend budgets.
+Research and runtime utilities for autonomous shopping. The current study asks
+whether another seller inspection earns its cost; the older hard-budget planner below
+remains available as a separate no-recall runtime API.
 
 The host owns LLM calls, merchant tools, credentials, and purchase execution. This
 package makes the decision and enforces the budget; it never contacts a merchant.
 
-## The decision rule in ten lines
+## Legacy hard-budget planner
 
 ```python
 from autonomous_shopping_optimizer import (
@@ -38,29 +39,29 @@ We reproduce it in a price-minimization form and verify it against the exact sol
 If you have per-merchant price forecasts rather than a range, `reservation_price`
 runs the exact dynamic program instead and returns a `Fraction`.
 
-## Model boundary
+## Recalled Pandora study
 
-The planner implements commit-or-continue semantics: after an observed catalog offer,
-the host either attempts purchase immediately or continues without reserving that
-offer. It does not model retaining the best offer, returning to an offer for free, or
-paying to revalidate it. Those actions require a recall-aware state model and are not
-covered by the current planner or evidence release.
+`SellerDeck`, `replay_hidden_cards`, `fit_empirical_policy`, and
+`run_hidden_card_study` implement the current research model. A policy retains the
+best revealed seller card and compares the expected price improvement from another
+card with a declared inspection cost. With free recall and zero inspection cost, it
+opens every feasible card. The registered held-out comparison is adaptive stopping
+versus costed search-all: at zero cost search-all is better, small positive-cost
+intervals can be inconclusive, and material inspection costs can favor adaptive
+stopping.
 
-## Is it worth using?
+`AutonomousShoppingOptimizer` and the closed-form functions implement the older
+commit-or-continue API: continuing does not retain an observed offer. They are not
+the policy benchmark reported by the current paper.
 
-The repository's calibrated simulation sweep reports evidence, not a universal
-deployment prescription:
+## Evidence boundary
 
-| Simulation condition | Evidence against the tuned fixed rule |
-| --- | --- |
-| Price spread at or below 1.01× | No cell favors adaptive stopping |
-| Modest 1.10× spread | Fixed rule wins in two cells, at both constrained and full budgets |
-| Larger spread in selected cells | Adaptive stopping is favored |
-
-The table is simulation calibrated to the measured corpus, not a measurement of retail
-outcomes. Each row includes its paired interval and sample size in the generated paper
-and site tables. In the replay model, a catalog offer is accepted for an immediate
-purchase attempt or not reserved; a later query is a new observation.
+The frozen Shopify seller-deck study has 40 product decks: 24 calibration decks and
+16 held-out product clusters. It uses only the recovered complete 39-query prefix of
+48 registered deep queries. Its title identity rule was revised after collection, so
+it is a reproducible held-out study, not a deployment recommendation.
+Direct-merchant UCP panels are separate catalog-observability evidence, not inputs to
+the Shopify Pandora policy replay.
 
 ## Enforcing budgets
 

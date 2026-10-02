@@ -1,7 +1,7 @@
 {
   "name": "autonomous-shopping-optimizer",
   "version": "0.1.0",
-  "description": "Hard-budget optimizer middleware for autonomous shopping",
+  "description": "Legacy no-recall hard-budget shopping optimizer middleware",
   "type": "module",
   "exports": {
     ".": {

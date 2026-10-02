@@ -5,11 +5,12 @@ build-backend = "hatchling.build"
 [project]
 name = "autonomous-shopping-optimizer"
 version = "0.1.0"
-description = "Hard-budget optimizer middleware for autonomous shopping"
+description = "Recalled Pandora shopping research tools and legacy hard-budget middleware"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "Ahnaf Prio" }]
+dependencies = ["tldextract>=5.1,<6"]
 
 [project.urls]
 Repository = "https://github.com/ahnafyy/autonomous-merchant-search-under-constraints"

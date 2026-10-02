@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { copyFile, cp, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -6,6 +6,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const siteRoot = resolve(here, "..");
 const source = resolve(siteRoot, "..", "artifacts", "site-data.json");
 const destination = resolve(siteRoot, "src", "generated", "site-data.json");
+const figuresSource = resolve(siteRoot, "..", "artifacts", "figures");
+const figuresDestination = resolve(siteRoot, "public", "figures");
 
 await mkdir(dirname(destination), { recursive: true });
 try {
@@ -16,5 +18,7 @@ try {
   }
   throw error;
 }
+
+await cp(figuresSource, figuresDestination, { recursive: true, force: true });
 
 console.log(`Synced verified site data to ${destination}`);

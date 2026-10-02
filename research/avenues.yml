@@ -1,31 +1,29 @@
 schema_version: 1
 avenues:
   - id: "AVENUE-001"
-    title: "Joint merchant routing and enforceable permit allocation"
+    title: "Recall-aware Pandora search over incomplete seller graphs"
     status: selected
     mechanism: >-
-      Before each UCP merchant call, the optimizer jointly chooses a merchant and
-      enforceable limits for time, tokens, calls, and genuine API spend. The runtime
-      atomically reserves the permit, conservatively reconciles censored usage, and
-      reclaims known unused capacity. Conserving resources preserves later search,
-      while overly strict permits can cause truncation, timeout, and purchase failure.
+      A shopping agent retains the best observed seller offer while choosing whether
+      another seller inspection has enough expected option value to justify its cost.
+      An aggregator exposes a covered seller graph, while direct merchant discovery
+      may expose additional costly cards outside that graph.
     minimal_model: >-
-      A finite commit-or-continue merchant-search episode with stochastic correlated
-      query usage, enforceable per-call permits, a hard total resource vector, and a
-      hard purchase-price cap. Continuing does not reserve an observed catalog offer.
+      A finite Pandora-search episode with a retained best offer, single-currency
+      seller cards, scalarized inspection costs, and an optional hard inspection
+      budget. Stopping purchases the retained best offer.
     novelty_hypothesis: >-
-      Treating the merchant and its enforceable observation limit as one online action
-      under censored multi-resource feedback may improve purchase quality or success
-      over fixed splitting and myopic feasible policies without hard-limit violations.
+      Recall-aware dynamic search may reduce normalized total acquisition cost versus
+      fixed search depths or thresholds when the expected improvement from unopened
+      seller cards exceeds their inspection cost.
     decisive_calculation: >-
-      On frozen held-out UCP panels, compare constrained ARVP, the same policy with
-      nonbinding budgets, equal split, greedy feasible, fixed-depth, worst-case reserve,
-      routing and permit ablations, and an exhaustive panel oracle. Reject the avenue
-      if adaptive allocation does not improve the preregistered outcome at zero
-      violations after planner overhead and forecast error are included.
+      On frozen seller decks, fit the Pandora and fixed policies on disjoint
+      calibration products and compare them on held-out products under a declared
+      inspection-cost grid. Reject a positive advantage claim if the product-clustered
+      interval includes zero.
     expected_value: >-
-      The result would give deployable guidance for timeout, max-token, call, and spend
-      limits around autonomous shopping tool loops.
+      The result would tell an agent whether to inspect another seller after an
+      aggregator has revealed only part of the relevant product graph.
     rejection_reason: null
   - id: "AVENUE-002"
     title: "Distribution-free stopping guarantees for ephemeral offers"
@@ -75,13 +73,12 @@ avenues:
       collected snapshots, so landed price cannot be computed for most episodes and a
       multi-attribute extension would rest on imputed components.
   - id: "AVENUE-004"
-    title: "Recall-aware stopping with retained offers and revalidation"
+    title: "Revalidation after recalled seller search"
     status: deferred
     mechanism: >-
-      After observing a catalog offer, an agent may retain it, return to it without a
-      new query, or spend resources to revalidate it after further search. The state
-      must record the retained offer and its transition model rather than treating a
-      continued offer as irreversibly unavailable.
+      After retaining a seller offer, an agent may need to revalidate price or
+      availability before purchase. The state must include the retained offer age and
+      revalidation transition model.
     minimal_model: >-
       A finite merchant-search episode with a best retained offer, explicit free
       recall or paid revalidation actions, hard resource budgets, and stochastic

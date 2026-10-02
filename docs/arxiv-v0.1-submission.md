@@ -3,15 +3,17 @@
 ## Scope
 
 This branch prepares, but does not submit, the `v0.1` preprint for *When Should a
-Shopping Agent Stop Searching?* The intended evidence release reports the verified
-two-snapshot catalog-search analysis and its registered claims. Its primary policy is
-commit-or-continue: continuing does not reserve an earlier catalog offer.
+Shopping Agent Stop Searching?* The intended evidence release reports an exploratory
+costly-search study on frozen Shopify seller decks and source-stratified UCP
+catalog-observation context. The policy retains the best observed seller offer and
+compares another reveal's expected improvement with its declared inspection cost.
 
-Daily panel re-observation and weekly discovery are ongoing. Their raw outputs are
-operational provenance for a later longitudinal analysis, not evidence or findings in
-the intended `v0.1` results. Retained-offer and revalidation policies are also outside
-the current evidence release; they need a recall-aware benchmark before they can be
-reported as results.
+The current study has a post-collection title identity revision and four held-out
+product clusters. It finds no reliably detected adaptive improvement across the
+registered cost grid. UCP panels
+are not pooled with the Shopify replay and do not establish checkout persistence or
+universal seller coverage. Future releases should preregister identity, cost, and
+advantage criteria before collecting a confirmatory seller-deck sample.
 
 Future conference submissions may revise this work after sufficient longitudinal
 observations support additional analyses. They are future plans, not submission or

@@ -441,6 +441,12 @@ h3 {
   margin: 0;
 }
 
+.research-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .decision-spotlight {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
