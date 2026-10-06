@@ -6,9 +6,10 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description: string;
+  kind?: "article" | "website";
 }
 
-const { title, description } = Astro.props;
+const { title, description, kind = "website" } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,7 +20,7 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="article" />
+    <meta property="og:type" content={kind} />
     <meta name="generator" content={Astro.generator} />
     <link
       rel="icon"

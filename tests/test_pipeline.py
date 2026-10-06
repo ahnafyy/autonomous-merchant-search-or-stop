@@ -30,9 +30,16 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
     site_data = json.loads((first / "site-data.json").read_text(encoding="utf-8"))
     assert site_data["results"]["study_design"] == "source_stratified_recalled_pandora_search"
     assert site_data["results"]["empirical_claims_ready"] is False
-    assert site_data["results"]["shopify_global_catalog"]["product_deck_count"] == 40
-    assert site_data["results"]["shopify_global_catalog"]["held_out_product_count"] == 16
-    ucp_costs = site_data["results"]["ucp_direct_panels"]["cost_overlay"]
+    shopify = site_data["results"]["shopify_global_catalog"]
+    assert shopify["product_deck_count"] == 40
+    assert shopify["held_out_product_count"] == 16
+    assert shopify["seller_card_count"] >= shopify["product_deck_count"] * 3
+    ucp_panels = site_data["results"]["ucp_direct_panels"]
+    assert isinstance(ucp_panels["excluded_dates"], dict)
+    assert ucp_panels["excluded_dates"]
+    assert isinstance(ucp_panels["included_lifecycle_dates"], list)
+    assert ucp_panels["included_lifecycle_dates"]
+    ucp_costs = ucp_panels["cost_overlay"]
     assert ucp_costs["status"] == "declared_historical_cost_overlay"
     assert ucp_costs["total_merchant_probe_calls"] > 0
     assert [row["cost_scenario"] for row in ucp_costs["scenarios"]] == [
@@ -40,7 +47,7 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
         "agentic_review_2m",
         "long_horizon_research_5m",
     ]
-    ucp_replay = site_data["results"]["ucp_direct_panels"]["pandora_replay"]
+    ucp_replay = ucp_panels["pandora_replay"]
     assert ucp_replay["status"] == "analyzed_frozen_panel_series"
     assert ucp_replay["product_deck_count"] > 3445
     assert ucp_replay["held_out_product_count"] == 1381
@@ -55,9 +62,7 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
     claim_statuses = {claim["id"]: claim["status"] for claim in site_data["claims"]}
     assert claim_statuses == {
         "PANDORA-ADVANTAGE-001": "numerical",
-        "SHOPIFY-SELLER-DECK-STUDY-001": "numerical",
         "UCP-MARKET-RATE-SENSITIVITY-001": "numerical",
-        "UCP-OBSERVATION-QUALITY-001": "numerical",
         "UCP-PANDORA-REPLAY-001": "numerical",
     }
     assert site_data["packages"]["python"]["distribution"] == (

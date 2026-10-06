@@ -1,0 +1,91 @@
+---
+import ClaimLedger from "../components/ClaimLedger.astro";
+import ResearchLayout from "../layouts/ResearchLayout.astro";
+import data from "../generated/site-data.json";
+
+const { authors, claims, links, licenses, project, release, results } = data;
+const authorNames = authors.map((author) => author.name).join(", ");
+const basePath = import.meta.env.BASE_URL;
+const shopify = results.shopify_global_catalog;
+const ucp = results.ucp_direct_panels;
+const visibleClaims = claims.filter((claim) => claim.site_visible);
+const studyRows = shopify.cost_results ?? [];
+---
+
+<ResearchLayout title={`${project.title} - Paper`} description={project.abstract} kind="article">
+  <header class="topbar">
+    <div class="journal-mark">
+      <a class="wordmark" href={basePath}>Search or Stop</a>
+      <span>Research paper</span>
+    </div>
+    <nav aria-label="Paper navigation">
+      <a href={basePath}>Product</a>
+      <a href="#model">Model</a>
+      <a href="#results">Results</a>
+      <a href="#claims">Claims</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="paper-title">
+      <div class="hero__content">
+        <div class="article-kicker">
+          <span>Computational research</span>
+          <span>Version {release.version}</span>
+          <span>Shopify analysis is exploratory</span>
+        </div>
+        <h1 id="paper-title">{project.title}</h1>
+        <p class="subtitle">{project.subtitle}</p>
+        <p class="hero-result"><span>Measured result</span><strong>Across these frozen replays, declared inspection cost determines whether selective stopping beats search-all.</strong></p>
+        <div class="author-block"><p class="byline">{authorNames}</p></div>
+        <div class="abstract-block"><p class="abstract-label">Abstract</p><p class="abstract">{project.abstract}</p></div>
+      </div>
+    </section>
+
+    <section class="section section--rule" id="model" aria-labelledby="model-title">
+      <div class="section__heading"><p class="section-number">1</p><div><span class="eyebrow">Decision model</span><h2 id="model-title">Is another merchant inspection worth its cost?</h2></div></div>
+      <div class="prose">
+        <p>A seller card reveals a price. The agent keeps its best observed offer and either buys it or pays to inspect another feasible card.</p>
+        <div class="equation"><p aria-label="Search when expected retained-price improvement exceeds inspection cost">search iff E[max(best retained price minus next price, 0)] &gt; inspection cost</p></div>
+        <p>With free recall and zero inspection cost, every feasible card should be opened. The inspection-cost grid is sensitivity analysis, not observed merchant billing.</p>
+      </div>
+    </section>
+
+    <section class="section" id="results" aria-labelledby="results-title">
+      <div class="section__heading"><p class="section-number">2</p><div><span class="eyebrow">Held-out results</span><h2 id="results-title">Cost changes the answer</h2></div></div>
+      <p class="section-intro">The UCP replay favors adaptive stopping in every registered real-dollar scenario. The smaller, exploratory Shopify replay favors it only at the long-horizon cost; its two lower-cost intervals are inconclusive.</p>
+      <div class="exact-table-wrap" tabindex="0" role="region" aria-label="Exploratory Shopify policy results by inspection cost scenario">
+        <table class="decision-table">
+          <caption>Exploratory Shopify replay; difference is adaptive minus costed search-all.</caption>
+          <thead><tr><th>Cost</th><th>Comparator</th><th>Difference</th><th>95% interval</th><th>Products</th><th>Status</th></tr></thead>
+          <tbody>{studyRows.map((row) => (<tr><td>${row.inspection_cost_usd.toFixed(2)}</td><td>search all</td><td>{row.adaptive_vs_search_all.mean_difference.toFixed(4)}</td><td>[{row.adaptive_vs_search_all.ci_lower.toFixed(4)}, {row.adaptive_vs_search_all.ci_upper.toFixed(4)}]</td><td>{row.adaptive_vs_search_all.product_clusters}</td><td>{row.adaptive_vs_search_all.favors_treatment ? "Adaptive improvement" : row.adaptive_vs_search_all.ci_lower > 0 ? "Search-all improvement" : "Inconclusive"}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="sources" aria-labelledby="sources-title">
+      <div class="section__heading"><p class="section-number">3</p><div><span class="eyebrow">Evidence design</span><h2 id="sources-title">Two sources, separate roles</h2></div></div>
+      <div class="prose-grid">
+        <div class="prose"><h3>UCP direct-merchant panels</h3><p>{ucp.pandora_replay.held_out_product_count.toLocaleString()} held-out SKU clusters support the primary replay. Dates for a SKU stay together during calibration or evaluation, and declared inspection costs are not observed billing.</p></div>
+        <div class="prose"><h3>Shopify Global Catalog (exploratory)</h3><p>{shopify.product_deck_count} title-normalized decks and {shopify.seller_card_count} cards support a smaller replay with {shopify.held_out_product_count} held-out products. Identity matching changed after collection, and seller domains do not establish independent companies or checkout equivalence.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="claims" aria-labelledby="claims-title">
+      <div class="section__heading"><p class="section-number">4</p><div><span class="eyebrow">Executable ledger</span><h2 id="claims-title">Three policy claims, each tied to evidence</h2></div></div>
+      <ClaimLedger claims={visibleClaims} />
+    </section>
+
+    <section class="section section--materials" aria-labelledby="materials-title">
+      <div class="section__heading"><p class="section-number">5</p><div><span class="eyebrow">Materials</span><h2 id="materials-title">Reproduce and inspect</h2></div></div>
+      <dl class="artifact-list">
+        <div><dt>Repository</dt><dd><a href={links.repository}>Source and generated artifacts</a></dd></div>
+        <div><dt>Claim ledger</dt><dd><a href={`${links.repository}/blob/main/research/claims.yml`}>Registered claims</a></dd></div>
+        <div><dt>Agent Skill</dt><dd><a href="https://skills.sh/ahnafyy/autonomous-merchant-search-or-stop">agent-shopping-search-or-stop</a></dd></div>
+        <div><dt>Licenses</dt><dd>{licenses.code} · {licenses.content}</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer><div><p class="footer-title">{project.title}</p><p>{authorNames} · Version {release.version}</p></div><p><a href={basePath}>Product</a> · <a href={links.repository}>Repository</a></p></footer>
+</ResearchLayout>

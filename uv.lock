@@ -142,7 +142,7 @@ wheels = [
 ]
 
 [[package]]
-name = "research-paper-package-template"
+name = "agentic-shopping-search-or-stop-workspace"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

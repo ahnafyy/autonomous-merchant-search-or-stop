@@ -10,7 +10,7 @@
       "import": "./src/recalled-search.js"
     }
   },
-  "files": ["src", "README.md"],
+  "files": ["src", "README.md", "LICENSE"],
   "scripts": {
     "test": "node --test",
     "pack:check": "npm pack --dry-run"
@@ -19,12 +19,12 @@
     "node": ">=22.12.0"
   },
   "license": "MIT",
-  "homepage": "https://ahnafyy.github.io/autonomous-merchant-search-under-constraints/",
-  "bugs": "https://github.com/ahnafyy/autonomous-merchant-search-under-constraints/issues",
+  "homepage": "https://ahnafyy.github.io/autonomous-merchant-search-or-stop/",
+  "bugs": "https://github.com/ahnafyy/autonomous-merchant-search-or-stop/issues",
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahnafyy/autonomous-merchant-search-under-constraints.git"
+    "url": "git+https://github.com/ahnafyy/autonomous-merchant-search-or-stop.git"
   },
   "publishConfig": {
     "access": "public",
