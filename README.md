@@ -94,7 +94,7 @@ canonical counts, intervals, and outcomes are generated from the
 - `UCP-MARKET-RATE-SENSITIVITY-001` covers the inspection-cost boundary.
 - `PANDORA-ADVANTAGE-001` covers the exploratory Shopify replication.
 
-Read the [paper and executable claim ledger](https://ahnafyy.github.io/autonomous-merchant-search-or-stop/paper/)
+Read the [paper source](paper/) and [executable claim ledger](research/claims.yml)
 for intervals, methods, and scope. The package itself is tested against shared
 conformance vectors.
 
