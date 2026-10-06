@@ -55,9 +55,7 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
     claim_statuses = {claim["id"]: claim["status"] for claim in site_data["claims"]}
     assert claim_statuses == {
         "PANDORA-ADVANTAGE-001": "numerical",
-        "SHOPIFY-SELLER-DECK-STUDY-001": "numerical",
         "UCP-MARKET-RATE-SENSITIVITY-001": "numerical",
-        "UCP-OBSERVATION-QUALITY-001": "numerical",
         "UCP-PANDORA-REPLAY-001": "numerical",
     }
     assert site_data["packages"]["python"]["distribution"] == (

@@ -1,20 +1,18 @@
 {
   "all_executable_claims_passed": true,
   "claims": [
-    "SHOPIFY-SELLER-DECK-STUDY-001",
-    "UCP-OBSERVATION-QUALITY-001",
     "UCP-PANDORA-REPLAY-001",
     "UCP-MARKET-RATE-SENSITIVITY-001",
     "PANDORA-ADVANTAGE-001"
   ],
   "files": {
-    "claim-results.json": "a5b3484ca040b60a20df69ce2bda6e30572bf8a622614faa78c6eef214454e03",
+    "claim-results.json": "70f35015b4ea7f583460aebf7fb44a724a18145e6e03eb00806d64b4380d2244",
     "conformance/closed-form.json": "e74707bef1d61443e8f023eecccb5429f2c87f5054a9f9d5cf8876560db8d670",
     "conformance/merchant-search.json": "45df9253be3382e2fd79a666ab717d17aa68c7e21c8c908cd9a051990a4e68a7",
     "data/summary.csv": "bdaf4a9985d8e610ac380457e467e52b5a2bdba5536014109f965febdd0387d6",
     "results.json": "eb3d8a3115c04aa1eac16b4ada45cf3de6b5ff028ac1934adb582c6691656f3a",
-    "site-data.json": "a989a69bc76d31c4bb107fffb89ff4b5328e74de00feb895b9afdfdfd0e5f203",
-    "tables/claim_status.tex": "925d463d4dd73b025e434788231e38648ba98019d2b7a4a8f16cd67f71ea40fd",
+    "site-data.json": "32388c0df7dc2a78c477f602dc7a27d9acae1d31760ee1388be7a39c832ccaa8",
+    "tables/claim_status.tex": "6fd831d2e5de52417808736d5da67d6f383a7f39ea602d3e615c190ef54b8f70",
     "tables/pandora_study.tex": "ad00d5e65e556c07df88aa168289f3dba233bf1f54979515982ebe3c0ee1f430",
     "tables/project_metadata.tex": "173f9a6acd75efab2e9b022ac6d06b078f87a77b40982acefa8a03a25ff4ec48",
     "tables/references.bib": "986366bf5f8496263da317d2d62724690081f71ac15be82ffc2eb3d9a81899f7",
@@ -32,7 +30,7 @@
       "javascript": "agentic-shopping-search-or-stop",
       "python": "agentic-shopping-search-or-stop"
     },
-    "slug": "autonomous-merchant-search-under-constraints",
+    "slug": "autonomous-merchant-search-or-stop",
     "title": "When Should a Shopping Agent Stop Searching?",
     "version": "0.1.0"
   },

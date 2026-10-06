@@ -19,8 +19,8 @@
     }
   },
   "platform": {
-    "name": "Autonomous Shopping Optimizer research platform (non-transactional)",
-    "description": "Identity used only for read-only UCP catalog search and lookup calls made for academic research. Never creates checkouts, carts, or orders.",
-    "repository": "https://github.com/ahnafyy/autonomous-merchant-search-under-constraints"
+    "name": "Agentic Shopping: Search or Stop (non-transactional)",
+    "description": "Identity for read-only UCP catalog search and lookup calls. Never creates checkouts, carts, or orders.",
+    "repository": "https://github.com/ahnafyy/autonomous-merchant-search-or-stop"
   }
 }

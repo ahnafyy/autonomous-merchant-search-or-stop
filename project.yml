@@ -3,7 +3,7 @@ initialized: true
 project:
   title: "When Should a Shopping Agent Stop Searching?"
   subtitle: "When is one more merchant inspection worth its cost?"
-  slug: "autonomous-merchant-search-under-constraints"
+  slug: "autonomous-merchant-search-or-stop"
   abstract: >-
     A shopping agent should search again only when the expected saving can repay the
     cost of another inspection. We turn that intuition into a costly-search decision
@@ -32,8 +32,8 @@ authors:
     affiliations:
       - "Independent Researcher"
 links:
-  repository: "https://github.com/ahnafyy/autonomous-merchant-search-under-constraints"
-  site: "https://ahnafyy.github.io/autonomous-merchant-search-under-constraints/"
+  repository: "https://github.com/ahnafyy/autonomous-merchant-search-or-stop"
+  site: "https://ahnafyy.github.io/autonomous-merchant-search-or-stop/"
 research:
   random_seed: 20260723
 release:

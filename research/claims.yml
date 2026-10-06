@@ -1,49 +1,5 @@
 schema_version: 1
 claims:
-  - id: "SHOPIFY-SELLER-DECK-STUDY-001"
-    statement: >-
-      A frozen Shopify Global Catalog snapshot contains replayable, single-currency
-      same-title seller decks with at least three distinct Shopify shop domains.
-    status: "numerical"
-    scope: >-
-      The recovered complete 39-query prefix of the September 18--19, 2026 deep Shopify
-      Global Catalog collection, USD offers, and the post-collection exact-normalized-
-      model-title identity rule. Seller domains are not verified independent companies,
-      and the snapshot is not a population sample.
-    evaluator: "paperkit.evaluators:evaluate_shopify_deck_study"
-    evidence:
-      - "data/ucp/global-catalog-study-2026-09-18-deep.json"
-      - "scripts/collect_global_catalog.py"
-      - "scripts/analyze_global_catalog.py"
-    manuscript_labels:
-      - "sec:benchmark"
-    site_visible: true
-    limitations:
-      - "Title matching was revised after collection and is therefore exploratory."
-      - "Catalog offers do not establish checkout price or seller independence."
-      - "The study reports a fixed snapshot and is not a population sample."
-
-  - id: "UCP-OBSERVATION-QUALITY-001"
-    statement: >-
-      The direct-merchant UCP panel series detects and excludes common-mode retrieval
-      discontinuities instead of treating them as merchant-offer disappearance.
-    status: "numerical"
-    scope: >-
-      The September 3 through October 5, 2026 direct-merchant panel collection and
-      its deterministic lifecycle-quality analysis. It measures catalog observability,
-      not checkout persistence, seller coverage, or the frozen September recalled
-      Pandora policy outcome.
-    evaluator: "paperkit.evaluators:evaluate_ucp_panel_quality"
-    evidence:
-      - "data/ucp/panel-observation-quality.json"
-      - "scripts/analyze_panel_observations.py"
-    manuscript_labels:
-      - "sec:benchmark"
-    site_visible: true
-    limitations:
-      - "Direct panel observations are not pooled with Shopify seller decks."
-      - "The observed catalog surface is incomplete and protocol changes can affect retrieval."
-
   - id: "UCP-PANDORA-REPLAY-001"
     statement: >-
       Across every registered inspection-cost scenario, adaptive recalled search
@@ -96,9 +52,10 @@ claims:
 
   - id: "PANDORA-ADVANTAGE-001"
     statement: >-
-      In the frozen Shopify seller-deck replay, adaptive recalled search reliably
-      improves held-out total cost over costed search-all in the registered
-      long-horizon scenario, but not in the two lower-cost scenarios.
+      In an exploratory frozen Shopify seller-deck replay built with a post-collection
+      title-identity revision, adaptive recalled search reliably improves held-out
+      total cost over costed search-all in the registered long-horizon scenario, but
+      not in the two lower-cost scenarios.
     status: "numerical"
     scope: >-
       Forty title-normalized product decks from one frozen Shopify collection, 24

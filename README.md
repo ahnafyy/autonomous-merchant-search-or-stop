@@ -1,76 +1,105 @@
-# When Should a Shopping Agent Stop Searching?
+# Agentic Shopping: Search or Stop
 
-This repository studies one practical shopping-agent question: is another merchant
-inspection worth its cost? The agent keeps its best observed offer and compares the
-expected saving from another seller with the time, calls, money, and attention needed
-to inspect it.
+**Make "one more seller?" a deterministic, auditable decision.**
 
-## Current evidence
+`agentic-shopping-search-or-stop` helps shopping agents decide whether another
+merchant inspection is worth its time, tokens, API calls, and money. It returns
+`SEARCH` only when the next inspection fits the remaining budget and its expected
+saving exceeds its declared cost. Otherwise, it returns `STOP` with a complete
+decision breakdown.
 
-The policy benchmark uses a recovered complete 39-query prefix of a frozen deep
-Shopify Global Catalog snapshot to build single-currency seller decks. The current
-analysis yields 40 title-normalized decks and 172 seller cards under a disclosed
-post-collection identity revision: 24 decks calibrate adaptive stopping and 16
-independent product clusters are held out for evaluation. The reported comparison is
-adaptive stopping versus costed search-all, not a fixed-depth heuristic. The two
-lower-cost Shopify intervals are inconclusive; the long-horizon scenario favors
-adaptive stopping.
+The runtimes are local decision utilities. They make no network calls, hold no
+credentials, and never authorize a purchase.
 
-This study also uses UCP direct-merchant panels to characterize catalog observability
-and collection quality in the wider search environment. The datasets are analyzed
-separately rather than pooled: an aggregator's visible product--seller graph is not
-evidence of universal market coverage, seller independence, checkout availability,
-shipping, tax, or returns.
+## Install
 
-## Model
+Choose the integration that fits your agent host:
 
-A recalled-search state is $(p^\star, S, b)$: the best retained price, unopened
-sellers, and remaining inspection budget. With free recall and zero inspection cost,
-opening every feasible card weakly improves the retained price. Cost must therefore
-enter the objective for stopping to be meaningful:
-
-```text
-search iff expected improvement from another card > inspection cost
-```
-
-The repository's Python study code supplies `SellerDeck`, `replay_hidden_cards`,
-`fit_empirical_policy`, and `run_hidden_card_study`. The published Python and
-JavaScript distributions are `agentic-shopping-search-or-stop`: they implement the
-recalled `SEARCH`/`STOP` rule above for agent hosts.
-
-## Agent Skill
-
-For agent hosts, install the `agent-shopping-search-or-stop` procedure from
-Skills.sh:
+### Python
 
 ```bash
-npx skills add ahnafyy/autonomous-merchant-search-under-constraints
+pip install agentic-shopping-search-or-stop
 ```
 
-It guides an agent to call the versioned runtime decision tool with calibrated
-same-product prices and declared permits. The skill does not search merchants, hold
-credentials, or authorize a purchase; those remain host responsibilities.
+See the [Python package guide](packages/python/README.md).
 
-## Reproduce
+### JavaScript
+
+```bash
+npm install agentic-shopping-search-or-stop
+```
+
+See the [JavaScript package guide](packages/javascript/README.md).
+
+### Agent Skill
+
+```bash
+npx skills add ahnafyy/autonomous-merchant-search-or-stop
+```
+
+The Skill gives compatible agents a safe procedure for calling either runtime.
+
+## What it provides
+
+- **Hard budget gate:** time, token, call, and API-spend limits are checked before
+	another merchant inspection.
+- **Economic comparison:** expected retained-offer savings are compared with the full
+	declared inspection cost, including resource shadow prices.
+- **Decision breakdown:** every result includes feasibility, expected saving, cost
+	components, net value, and reservation price.
+- **Tool-ready contract:** both runtimes expose the same narrow JSON decision schema;
+	the host adapts the provider-specific outer envelope.
+- **Host control:** merchant access, credentials, validation, and purchase approval
+	remain outside the model and outside this package.
+
+## Decision rule
+
+```text
+SEARCH iff the next inspection fits the remaining budget
+			 and expected retained-offer saving > inspection cost
+```
+
+The host supplies same-product price samples, the best retained price, expected
+resource use for the next inspection, and remaining budgets. The runtime returns the
+decision; the host remains responsible for dispatching tools and reconciling actual
+usage.
+
+## Public integrations
+
+- Python: `RecalledSearchHook`, `pandora_decision`,
+	`recalled_search_tool_schema`, and `run_recalled_search_tool`
+- JavaScript: `createRecalledSearchHook`, `decideRecalledSearch`,
+	`recalledSearchToolSchema`, and `runRecalledSearchTool`
+- Agent Skill: `agent-shopping-search-or-stop`
+
+## Development
 
 ```bash
 make install
-.venv/bin/python -m paperkit.cli build
 .venv/bin/python -m pytest
 .venv/bin/python -m ruff check .
-.venv/bin/python -m paperkit.cli build-paper
-npm run check --prefix site
-npm run build --prefix site
+npm test --prefix packages/javascript
+npm run pack:check --prefix packages/javascript
 ```
 
-Scientific values originate in Python and flow into `artifacts/`. The manuscript and
-site consume those generated artifacts. Registered claims live in
-`research/claims.yml`; each reported numerical claim has an executable evaluator.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full validation workflow.
 
-## Limits
+## Evidence
 
-The seller identity rule is title-based and was revised after collection. Seller
-domains do not prove independent companies or equivalent products. The model assumes
-that a retained offer remains actionable at the observed price and does not measure
-revalidation, checkout, or price persistence. A future confirmatory collection must
-preregister the identity rule, inspection-cost scenario, and advantage criterion.
+The useful result is narrow: **inspection cost changes which policy wins**.
+
+- In the held-out UCP replay, adaptive stopping beats costed search-all across all
+	three declared real-dollar scenarios over 1,381 SKU clusters.
+- At zero inspection cost, search-all wins. At one-hundredth and one-tenth of the
+	registered workload, the comparison is inconclusive. At the registered workload
+	and ten times it, adaptive stopping wins.
+- The smaller Shopify replay is exploratory because identity matching changed after
+	collection. Only its highest-cost scenario favors adaptive stopping.
+
+Read the [paper and executable claim ledger](https://ahnafyy.github.io/autonomous-merchant-search-or-stop/paper/)
+for intervals, methods, and scope. The package itself is tested against shared
+conformance vectors.
+
+## License
+
+Code is available under the [MIT License](LICENSE).

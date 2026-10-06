@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "research-paper-package-template"
+name = "agentic-shopping-search-or-stop-workspace"
 version = "0.1.0"
-description = "A template for publishing a research paper and matching software packages"
+description = "Build and validation workspace for the agentic shopping search-or-stop runtimes"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

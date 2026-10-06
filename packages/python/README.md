@@ -1,7 +1,8 @@
 # agentic-shopping-search-or-stop
 
-Runtime utilities for the paper's recalled-search rule: decide whether another seller
-inspection earns its cost or an agent should stop with its best retained offer.
+Add a deterministic, budget-aware `SEARCH` or `STOP` decision to a Python shopping
+agent. The runtime decides whether another seller inspection is worth its expected
+saving and remaining resource budget.
 
 The host owns LLM calls, merchant tools, credentials, and purchase execution. This
 package makes the decision and checks declared budget feasibility; it never contacts a
@@ -11,7 +12,7 @@ merchant.
 pip install agentic-shopping-search-or-stop
 ```
 
-## Recalled-search hook for LLM tool loops
+## Quick start
 
 Use `RecalledSearchHook` after each seller tool result when the agent can retain its
 best observed offer. The hook implements the reported rule exactly:
@@ -51,7 +52,7 @@ else:
 logging or an LLM tool response. Do not use seller observations from one product as
 the calibrated price sample for another product.
 
-### OpenAI/ChatGPT and Claude tool registration
+## LLM tool registration
 
 `recalled_search_tool_schema()` returns a vendor-neutral name, description, and JSON
 input schema. `run_recalled_search_tool()` executes exactly that payload. Adapt only
@@ -87,30 +88,28 @@ Treat the model as a caller, not as the decision implementation. Validate seller
 identity and a calibrated same-product price sample before calling the tool, enforce
 the actual tool permit separately, and never let model output authorize a purchase.
 
-### Agent skill
+## Agent Skill
 
 For a cross-agent procedure that registers and calls this runtime safely, install
 `agent-shopping-search-or-stop` from this repository with:
 
 ```bash
-npx skills add ahnafyy/autonomous-merchant-search-under-constraints
+npx skills add ahnafyy/autonomous-merchant-search-or-stop
 ```
 
 The skill complements this package; this package remains the deterministic decision
 implementation.
 
-## Evidence boundary
+## Public API
 
-The frozen Shopify seller-deck study has 40 product decks: 24 calibration decks and
-16 held-out product clusters. It uses only the recovered complete 39-query prefix of
-48 registered deep queries. Its title identity rule was revised after collection, so
-it is a reproducible held-out study, not a deployment recommendation.
-Direct-merchant UCP panels are separate catalog-observability evidence, not inputs to
-the Shopify Pandora policy replay.
+- `RecalledSearchHook` - bind calibration samples and shadow prices once for a
+  seller-tool loop.
+- `pandora_decision` - calculate a decision directly from explicit inputs.
+- `recalled_search_tool_schema` / `run_recalled_search_tool` - register and execute
+  the portable `decide_recalled_search` model-tool contract.
 
-## Runtime API boundary
+## Operational boundaries
 
-For production agent integrations, depend on `RecalledSearchHook`,
-`pandora_decision`, `recalled_search_tool_schema`, and `run_recalled_search_tool`.
-The runtime needs no study data: the host supplies same-product calibration samples,
-declared inspection resources, and remaining budgets.
+The runtime needs no bundled study data. Your host must supply trustworthy
+same-product calibration samples, enforce actual resource budgets, validate offers,
+and remain the sole authority for merchant tools, credentials, and purchases.

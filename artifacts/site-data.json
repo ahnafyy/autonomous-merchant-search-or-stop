@@ -10,37 +10,6 @@
   ],
   "claims": [
     {
-      "detail": "Frozen Shopify collection produced 40 title-normalized seller decks and 172 seller cards for the registered held-out search study.",
-      "expected": 4,
-      "id": "SHOPIFY-SELLER-DECK-STUDY-001",
-      "limitations": [
-        "Title matching was revised after collection and is therefore exploratory.",
-        "Catalog offers do not establish checkout price or seller independence.",
-        "The study reports a fixed snapshot and is not a population sample."
-      ],
-      "observed": 40,
-      "passed": true,
-      "scope": "The recovered complete 39-query prefix of the September 18--19, 2026 deep Shopify Global Catalog collection, USD offers, and the post-collection exact-normalized- model-title identity rule. Seller domains are not verified independent companies, and the snapshot is not a population sample.",
-      "site_visible": true,
-      "statement": "A frozen Shopify Global Catalog snapshot contains replayable, single-currency same-title seller decks with at least three distinct Shopify shop domains.",
-      "status": "numerical"
-    },
-    {
-      "detail": "Lifecycle report retains 29 observation dates and excludes 1 common-mode retrieval discontinuities from offer outcomes.",
-      "expected": 1,
-      "id": "UCP-OBSERVATION-QUALITY-001",
-      "limitations": [
-        "Direct panel observations are not pooled with Shopify seller decks.",
-        "The observed catalog surface is incomplete and protocol changes can affect retrieval."
-      ],
-      "observed": 1,
-      "passed": true,
-      "scope": "The September 3 through October 5, 2026 direct-merchant panel collection and its deterministic lifecycle-quality analysis. It measures catalog observability, not checkout persistence, seller coverage, or the frozen September recalled Pandora policy outcome.",
-      "site_visible": true,
-      "statement": "The direct-merchant UCP panel series detects and excludes common-mode retrieval discontinuities instead of treating them as merchant-offer disappearance.",
-      "status": "numerical"
-    },
-    {
       "detail": "Every one of 3 registered UCP panel scenarios has a held-out interval favoring adaptive stopping over costed search-all.",
       "expected": [
         true,
@@ -113,7 +82,7 @@
       "passed": true,
       "scope": "Forty title-normalized product decks from one frozen Shopify collection, 24 used for calibration and 16 held out, evaluated across three registered declared real-dollar inspection-cost scenarios. Search-all opens every card and pays every declared inspection cost. The post-collection identity revision limits external interpretation but does not alter the registered held-out calculation.",
       "site_visible": true,
-      "statement": "In the frozen Shopify seller-deck replay, adaptive recalled search reliably improves held-out total cost over costed search-all in the registered long-horizon scenario, but not in the two lower-cost scenarios.",
+      "statement": "In an exploratory frozen Shopify seller-deck replay built with a post-collection title-identity revision, adaptive recalled search reliably improves held-out total cost over costed search-all in the registered long-horizon scenario, but not in the two lower-cost scenarios.",
       "status": "numerical"
     }
   ],
@@ -123,8 +92,8 @@
     "content": "CC-BY-4.0"
   },
   "links": {
-    "repository": "https://github.com/ahnafyy/autonomous-merchant-search-under-constraints",
-    "site": "https://ahnafyy.github.io/autonomous-merchant-search-under-constraints/"
+    "repository": "https://github.com/ahnafyy/autonomous-merchant-search-or-stop",
+    "site": "https://ahnafyy.github.io/autonomous-merchant-search-or-stop/"
   },
   "packages": {
     "javascript": {
@@ -148,7 +117,7 @@
       "free recall",
       "seller aggregation"
     ],
-    "slug": "autonomous-merchant-search-under-constraints",
+    "slug": "autonomous-merchant-search-or-stop",
     "subtitle": "When is one more merchant inspection worth its cost?",
     "title": "When Should a Shopping Agent Stop Searching?"
   },
