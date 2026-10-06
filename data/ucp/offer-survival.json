@@ -1,0 +1,214 @@
+{
+  "baseline_date": "2026-09-03",
+  "baseline_offers": 72791,
+  "fixed_fully_observed_cohort": 205,
+  "missing_observation_dates": [
+    "2026-09-12",
+    "2026-09-13"
+  ],
+  "observations": [
+    {
+      "elapsed_days": 1,
+      "observation_date": "2026-09-04",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 2,
+      "observation_date": "2026-09-05",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 3,
+      "observation_date": "2026-09-06",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 5,
+      "observation_date": "2026-09-08",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 6,
+      "observation_date": "2026-09-09",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 7,
+      "observation_date": "2026-09-10",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 8,
+      "observation_date": "2026-09-11",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 11,
+      "observation_date": "2026-09-14",
+      "offers_checked": 205,
+      "offers_present": 205,
+      "survival": 1.0
+    },
+    {
+      "elapsed_days": 12,
+      "observation_date": "2026-09-15",
+      "offers_checked": 205,
+      "offers_present": 201,
+      "survival": 0.980488
+    },
+    {
+      "elapsed_days": 13,
+      "observation_date": "2026-09-16",
+      "offers_checked": 205,
+      "offers_present": 127,
+      "survival": 0.619512
+    },
+    {
+      "elapsed_days": 14,
+      "observation_date": "2026-09-17",
+      "offers_checked": 205,
+      "offers_present": 120,
+      "survival": 0.585366
+    },
+    {
+      "elapsed_days": 15,
+      "observation_date": "2026-09-18",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 16,
+      "observation_date": "2026-09-19",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 17,
+      "observation_date": "2026-09-20",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 18,
+      "observation_date": "2026-09-21",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 19,
+      "observation_date": "2026-09-22",
+      "offers_checked": 205,
+      "offers_present": 202,
+      "survival": 0.985366
+    },
+    {
+      "elapsed_days": 20,
+      "observation_date": "2026-09-23",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 21,
+      "observation_date": "2026-09-24",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 22,
+      "observation_date": "2026-09-25",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 23,
+      "observation_date": "2026-09-26",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 24,
+      "observation_date": "2026-09-27",
+      "offers_checked": 205,
+      "offers_present": 181,
+      "survival": 0.882927
+    },
+    {
+      "elapsed_days": 25,
+      "observation_date": "2026-09-28",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 26,
+      "observation_date": "2026-09-29",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 27,
+      "observation_date": "2026-09-30",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 28,
+      "observation_date": "2026-10-01",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 29,
+      "observation_date": "2026-10-02",
+      "offers_checked": 205,
+      "offers_present": 202,
+      "survival": 0.985366
+    },
+    {
+      "elapsed_days": 30,
+      "observation_date": "2026-10-03",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 31,
+      "observation_date": "2026-10-04",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    },
+    {
+      "elapsed_days": 32,
+      "observation_date": "2026-10-05",
+      "offers_checked": 205,
+      "offers_present": 203,
+      "survival": 0.990244
+    }
+  ]
+}

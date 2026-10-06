@@ -46,6 +46,7 @@ class ProjectConfig:
     version: str
     python_distribution: str
     python_import_name: str
+    analysis_import_name: str
     javascript_package: str
 
     @classmethod
@@ -79,6 +80,12 @@ class ProjectConfig:
         python_import_name = _require_string(
             python_package, "import_name", "packages.python"
         )
+        analysis_import_name = python_package.get("analysis_import_name", python_import_name)
+        if not isinstance(analysis_import_name, str) or not analysis_import_name.strip():
+            raise ConfigurationError(
+                "packages.python.analysis_import_name must be a non-empty string"
+            )
+        analysis_import_name = analysis_import_name.strip()
         javascript_name = _require_string(
             javascript_package, "name", "packages.javascript"
         )
@@ -90,6 +97,11 @@ class ProjectConfig:
                 "packages.python.distribution",
             ),
             (python_import_name, PYTHON_IMPORT_PATTERN, "packages.python.import_name"),
+            (
+                analysis_import_name,
+                PYTHON_IMPORT_PATTERN,
+                "packages.python.analysis_import_name",
+            ),
             (javascript_name, NPM_PACKAGE_PATTERN, "packages.javascript.name"),
         )
         for value, pattern, context in patterns:
@@ -103,6 +115,7 @@ class ProjectConfig:
             version=version,
             python_distribution=python_distribution,
             python_import_name=python_import_name,
+            analysis_import_name=analysis_import_name,
             javascript_package=javascript_name,
         )
 

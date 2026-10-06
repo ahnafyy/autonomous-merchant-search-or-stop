@@ -1,104 +1,116 @@
-# Autonomous Shopping Optimizer
+# agentic-shopping-search-or-stop
 
-Decide when an autonomous shopping agent should stop searching and buy, under hard
-time, token, API-call, and spend budgets.
+Runtime utilities for the paper's recalled-search rule: decide whether another seller
+inspection earns its cost or an agent should stop with its best retained offer.
 
 The host owns LLM calls, merchant tools, credentials, and purchase execution. This
-package makes the decision and enforces the budget; it never contacts a merchant.
+package makes the decision and checks declared budget feasibility; it never contacts a
+merchant.
 
-## The decision rule in ten lines
+```bash
+pip install agentic-shopping-search-or-stop
+```
+
+## Recalled-search hook for LLM tool loops
+
+Use `RecalledSearchHook` after each seller tool result when the agent can retain its
+best observed offer. The hook implements the reported rule exactly:
+
+```text
+SEARCH iff the next inspection fits the remaining budget
+     and E[max(best retained offer - next price, 0)] > inspection cost
+```
+
+Prices and API spend are integer USD minor units. Resource shadow prices may be exact
+fractions: `time_ms` is a millisecond quantity whose shadow price is minor units per
+second, and `tokens` is charged in minor units per thousand tokens. The host supplies
+calibrated samples for the next seller, then owns tool dispatch, actual-usage charging,
+credentials, and purchase execution.
 
 ```python
-from autonomous_shopping_optimizer import (
-    affordable_queries, closed_form_reservation_price, ResourceVector,
+from agentic_shopping_search_or_stop import RecalledSearchHook
+
+after_offer = RecalledSearchHook(
+  price_samples_minor=[8_900, 9_400, 10_200, 11_100],
+  shadow_prices={"time_ms": 8, "api_calls": 2},
 )
 
-# 1. Your budget is one number, not four: whichever resource runs out first binds.
-k = affordable_queries(
-    ResourceVector(time=30, tokens=8000, api_calls=6, api_cost=12),
-    ResourceVector(time=4, tokens=900, api_calls=1, api_cost=2),
-)                                                     # -> 6
-
-# 2. Accept below a fraction of the price range you expect.
-threshold = closed_form_reservation_price(8_000, 12_000, k)   # -> 8798, i.e. $87.98
-
-if observed_price <= threshold:
-    buy()
+decision = after_offer(
+  current_best_minor=10_000,
+  next_inspection_resources={"time_ms": 12_000, "api_calls": 1, "api_cost_minor": 18},
+  remaining_budget={"time_ms": 45_000, "api_calls": 3, "api_cost_minor": 100},
+)
+if decision["action"] == "SEARCH":
+  next_seller = call_seller_tool()  # Host responsibility.
 else:
-    query_next_merchant()
+  buy_best_retained_offer()         # Host responsibility.
 ```
 
-The acceptance fractions come from `u(0) = 1`, `u(k+1) = u(k) - u(k)**2 / 2`, giving
-`0.500, 0.375, 0.305, 0.258, ...`. The threshold *rises* as the budget drains, because
-failing to buy costs more than overpaying.
+`decision` contains the `expected_saving_minor`, each cost component,
+`inspection_cost_minor`, `net_value_minor`, feasibility, and reservation price for
+logging or an LLM tool response. Do not use seller observations from one product as
+the calibrated price sample for another product.
 
-This recursion is not new: it is the Cayley-Moser problem (Cayley 1875, Moser 1956).
-We reproduce it in a price-minimization form and verify it against the exact solver.
+### OpenAI/ChatGPT and Claude tool registration
 
-If you have per-merchant price forecasts rather than a range, `reservation_price`
-runs the exact dynamic program instead and returns a `Fraction`.
-
-## Is it worth using?
-
-The repository's calibrated simulation sweep reports evidence, not a universal
-deployment prescription:
-
-| Simulation condition | Evidence against the tuned fixed rule |
-| --- | --- |
-| Price spread at or below 1.01× | No cell favors adaptive stopping |
-| Modest 1.10× spread | Fixed rule wins in two cells, at both constrained and full budgets |
-| Larger spread in selected cells | Adaptive stopping is favored |
-
-The table is simulation calibrated to the measured corpus, not a measurement of retail
-outcomes. Each row includes its paired interval and sample size in the generated paper
-and site tables. In the replay model, a catalog offer is accepted for an immediate
-purchase attempt or not reserved; a later query is a new observation.
-
-## Enforcing budgets
+`recalled_search_tool_schema()` returns a vendor-neutral name, description, and JSON
+input schema. `run_recalled_search_tool()` executes exactly that payload. Adapt only
+the outer tool envelope at the SDK boundary; no provider SDK is required.
 
 ```python
-from autonomous_shopping_optimizer import AutonomousShoppingOptimizer
+from agentic_shopping_search_or_stop import (
+  recalled_search_tool_schema,
+  run_recalled_search_tool,
+)
 
-reserved = optimizer.reserve_next_query()   # deducts the full permit up front
-# ... host enforces every ceiling on reserved.permit, then dispatches ...
-optimizer.reconcile(reserved, offer=offer, usage=usage, status="completed")
+schema = recalled_search_tool_schema()
+
+# OpenAI Chat Completions-style registration:
+openai_tool = {
+  "type": "function",
+  "function": {
+    "name": schema["name"],
+    "description": schema["description"],
+    "parameters": schema["input_schema"],
+    "strict": True,
+  },
+}
+
+# Anthropic Messages-style registration:
+claude_tool = schema
+
+# When either model emits decide_recalled_search arguments:
+decision = run_recalled_search_tool(model_tool_arguments)
 ```
 
-The ledger reserves capacity atomically, refuses repeated reconciliation, reclaims
-capacity known to be unused, and charges censored usage at the full permit. Overruns
-are prevented rather than detected afterwards. `next_query_permit()` and `observe()`
-remain convenience methods for completed calls with exact usage.
+Treat the model as a caller, not as the decision implementation. Validate seller
+identity and a calibrated same-product price sample before calling the tool, enforce
+the actual tool permit separately, and never let model output authorize a purchase.
 
-## Also included
+### Agent skill
 
-- `closed_form_reservation_price`, `affordable_queries`, `acceptance_fraction` --
-  the hand-computable rule above.
-- `secretary_sample_size` -- the classical `n/e` rule, provided so it can be compared
-  against the threshold rule rather than confused with it.
-- `hard_budget_stopping_plan` / `adaptive_hard_budget_plan` -- exact rational dynamic
-  programs over remaining merchants and remaining budget.
-- `verify_solver_against_enumeration`, `verify_closed_form_against_solver` -- checks
-  against brute force and against the solver.
-- `build_episodes` / `load_snapshot` -- turn dated merchant catalog snapshots into
-  replayable episodes.
-- `run_arm`, `ARMS` -- ten stopping policies replayed against frozen panels.
-- `run_study`, `paired_bootstrap`, `derive_criteria` — the full study pipeline.
-- `score_selection`, `exhaustive_oracle` — frozen-panel outcome metrics.
-- `load_endpoint_inventory`, `screen_endpoint_inventory` — UCP endpoint screening.
+For a cross-agent procedure that registers and calls this runtime safely, install
+`agent-shopping-search-or-stop` from this repository with:
 
-## Status
+```bash
+npx skills add ahnafyy/autonomous-merchant-search-under-constraints
+```
 
-Everything above works from a plain `pip install`. The study functions
-(`run_study`, `run_real_study`, `measure_ephemerality`, `build_episodes`) are the
-exception: they read dated merchant snapshots that are research inputs, not shipped
-in the wheel. Run them from a clone of the repository, or pass
-`data_dir=Path(...)` explicitly. The stopping rule itself needs no data.
+The skill complements this package; this package remains the deterministic decision
+implementation.
 
-The stopping solver is verified against exhaustive enumeration on small fixed-order
-instances only; that is not a general optimality proof, and it does not cover adaptive
-merchant routing. The closed-form recursion is a known result reproduced here, not a
-new one. Permit safety is supported by observing zero violations across every replayed
-episode, which is evidence rather than a proof.
+## Evidence boundary
 
-Neither this package nor the npm package is published to a registry yet. Install from
-source, or from a built wheel.
+The frozen Shopify seller-deck study has 40 product decks: 24 calibration decks and
+16 held-out product clusters. It uses only the recovered complete 39-query prefix of
+48 registered deep queries. Its title identity rule was revised after collection, so
+it is a reproducible held-out study, not a deployment recommendation.
+Direct-merchant UCP panels are separate catalog-observability evidence, not inputs to
+the Shopify Pandora policy replay.
+
+## Runtime API boundary
+
+For production agent integrations, depend on `RecalledSearchHook`,
+`pandora_decision`, `recalled_search_tool_schema`, and `run_recalled_search_tool`.
+The runtime needs no study data: the host supplies same-product calibration samples,
+declared inspection resources, and remaining budgets.
