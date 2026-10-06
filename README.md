@@ -86,15 +86,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full validation workflow.
 
 ## Evidence
 
-The useful result is narrow: **inspection cost changes which policy wins**.
+The registered result is narrow: **inspection cost changes which policy wins**. The
+canonical counts, intervals, and outcomes are generated from the
+[claim ledger](research/claims.yml), rather than maintained independently here:
 
-- In the held-out UCP replay, adaptive stopping beats costed search-all across all
-	three declared real-dollar scenarios over 1,381 SKU clusters.
-- At zero inspection cost, search-all wins. At one-hundredth and one-tenth of the
-	registered workload, the comparison is inconclusive. At the registered workload
-	and ten times it, adaptive stopping wins.
-- The smaller Shopify replay is exploratory because identity matching changed after
-	collection. Only its highest-cost scenario favors adaptive stopping.
+- `UCP-PANDORA-REPLAY-001` covers the primary held-out UCP replay.
+- `UCP-MARKET-RATE-SENSITIVITY-001` covers the inspection-cost boundary.
+- `PANDORA-ADVANTAGE-001` covers the exploratory Shopify replication.
 
 Read the [paper and executable claim ledger](https://ahnafyy.github.io/autonomous-merchant-search-or-stop/paper/)
 for intervals, methods, and scope. The package itself is tested against shared

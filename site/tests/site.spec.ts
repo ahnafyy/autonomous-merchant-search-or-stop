@@ -32,6 +32,11 @@ test("renders the product homepage with a working decision tool", async ({ page 
 });
 
 test("keeps research claims on the paper route", async ({ page }, testInfo) => {
+  const consoleErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  });
+
   await page.goto("/paper/");
 
   await expect(page.locator("#paper-title")).toHaveText("When Should a Shopping Agent Stop Searching?");
@@ -41,6 +46,10 @@ test("keeps research claims on the paper route", async ({ page }, testInfo) => {
   await expect(page.getByText("SHOPIFY-SELLER-DECK-STUDY-001", { exact: true })).toHaveCount(0);
   await expect(page.getByText("UCP-OBSERVATION-QUALITY-001", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Inconclusive", { exact: true }).first()).toBeVisible();
+
+  const overflows = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+  expect(overflows).toBe(false);
+  expect(consoleErrors).toEqual([]);
 
   const accessibility = await new AxeBuilder({ page }).analyze();
   expect(accessibility.violations).toEqual([]);
