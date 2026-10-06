@@ -29,9 +29,10 @@ claims:
       discontinuities instead of treating them as merchant-offer disappearance.
     status: "numerical"
     scope: >-
-      The September 2026 direct-merchant panel collection and its deterministic
-      lifecycle-quality analysis. It measures catalog observability, not checkout
-      persistence, seller coverage, or the recalled Pandora policy outcome.
+      The September 3 through October 5, 2026 direct-merchant panel collection and
+      its deterministic lifecycle-quality analysis. It measures catalog observability,
+      not checkout persistence, seller coverage, or the frozen September recalled
+      Pandora policy outcome.
     evaluator: "paperkit.evaluators:evaluate_ucp_panel_quality"
     evidence:
       - "data/ucp/panel-observation-quality.json"

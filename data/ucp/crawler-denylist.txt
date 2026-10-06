@@ -667,3 +667,4 @@ watchpilot.com  # unavailable after 3 attempts: The read operation timed out
 thebookmarkpr.com  # unavailable after 3 attempts: The read operation timed out
 storkcraft.com  # unavailable after 3 attempts: The read operation timed out
 youngla.com  # 401
+shop.lonelyplanet.com  # 401

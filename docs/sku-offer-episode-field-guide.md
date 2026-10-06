@@ -1,6 +1,6 @@
 # SKU, offer, and episode field guide
 
-Data cutoff: **2026-09-16**. This note covers every SKU-level discovery snapshot,
+Data cutoff: **2026-10-05**. This note covers every SKU-level discovery snapshot,
 extracted panel, and daily panel observation currently stored in `data/ucp`.
 
 ## Main findings
@@ -14,9 +14,9 @@ extracted panel, and daily panel observation currently stored in `data/ucp`.
 - The unfiltered August 2 to September 2 construction produced 294 episodes. The
   paper now uses **192 high-confidence episodes**: 94 tuning and 98 held out. The
   medium-confidence sensitivity set contains 243 episodes, with 123 held out.
-- Through September 15, the daily panel recorded **1,864 unique merchant-offer
-  losses across 1,598 SKUs** and 1,870 present-to-gone transition events. No SKU
-  lost offers from more than two raw merchant domains in this confirmed window.
+- The regenerated lifecycle report retains **29 quality-included daily panel dates**
+  through October 5. It is catalog-observability evidence, not a checkout-persistence
+  estimate or an expansion of the frozen September policy replay.
 - A full September 16 rerun produced 8,126 apparent merchant-offer losses across
   6,444 SKUs in one transition. It is preserved as raw evidence but excluded from
   the survival curve as a common-mode UCP catalog discontinuity.
@@ -276,8 +276,10 @@ even in some actual episodes.
   192 episodes. The adaptive-minus-fixed mean remains below zero in all three; the
   medium 95% interval is `[-87.69, -10.15]` minor units and the high-primary interval
   is `[-51.91, -4.90]`.
-3. **Lifecycle states:** 1,835 merchant-offers have a first disappearance, 135 later
-  reappear, and 1,107 meet the persistent-absence rule at the September 15 horizon.
+3. **Lifecycle states:** the generated quality report now covers September 3 through
+  October 5 and retains 29 quality-included dates. It continues to distinguish
+  observability changes from checkout persistence and does not alter the registered
+  September replay window.
 4. **Automatic anomaly detection:** the 15% offer/domain rule flags only September 16;
   its offer-loss fraction is 78.05% versus at most 9.71% earlier.
 5. **Company domains:** public/private suffix parsing now keeps separate hosted stores

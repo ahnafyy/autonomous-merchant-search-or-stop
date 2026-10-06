@@ -18,7 +18,26 @@
     "2026-09-10",
     "2026-09-11",
     "2026-09-14",
-    "2026-09-15"
+    "2026-09-15",
+    "2026-09-17",
+    "2026-09-18",
+    "2026-09-19",
+    "2026-09-20",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-09-24",
+    "2026-09-25",
+    "2026-09-26",
+    "2026-09-27",
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05"
   ],
   "lifecycle": {
     "examples": [
@@ -223,12 +242,12 @@
         "sku": "16859"
       }
     ],
-    "offers_that_reappeared": 135,
-    "offers_with_first_disappearance": 1835,
-    "persistent_absence_at_horizon": 1107,
+    "offers_that_reappeared": 12680,
+    "offers_with_first_disappearance": 14208,
+    "persistent_absence_at_horizon": 1809,
     "persistent_definition": "absent in at least two consecutive fully observed records after the most recent presence, with no later reappearance",
-    "reappearance_events": 260,
-    "unresolved_single_absence_at_horizon": 600
+    "reappearance_events": 16741,
+    "unresolved_single_absence_at_horizon": 533
   },
   "transitions": [
     {
@@ -376,6 +395,291 @@
       "lost_offers": 8126,
       "offer_loss_fraction": 0.832753,
       "prior_date": "2026-09-15",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.101604,
+      "affected_domains": 19,
+      "common_mode_anomaly": false,
+      "comparable_domains": 187,
+      "comparable_present_offers": 1614,
+      "current_date": "2026-09-17",
+      "lost_offers": 75,
+      "offer_loss_fraction": 0.046468,
+      "prior_date": "2026-09-16",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.026596,
+      "affected_domains": 5,
+      "common_mode_anomaly": false,
+      "comparable_domains": 188,
+      "comparable_present_offers": 1559,
+      "current_date": "2026-09-18",
+      "lost_offers": 9,
+      "offer_loss_fraction": 0.005773,
+      "prior_date": "2026-09-17",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.071642,
+      "affected_domains": 24,
+      "common_mode_anomaly": false,
+      "comparable_domains": 335,
+      "comparable_present_offers": 13754,
+      "current_date": "2026-09-19",
+      "lost_offers": 161,
+      "offer_loss_fraction": 0.011706,
+      "prior_date": "2026-09-18",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.079268,
+      "affected_domains": 13,
+      "common_mode_anomaly": false,
+      "comparable_domains": 164,
+      "comparable_present_offers": 9220,
+      "current_date": "2026-09-20",
+      "lost_offers": 155,
+      "offer_loss_fraction": 0.016811,
+      "prior_date": "2026-09-19",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.047619,
+      "affected_domains": 7,
+      "common_mode_anomaly": false,
+      "comparable_domains": 147,
+      "comparable_present_offers": 6626,
+      "current_date": "2026-09-21",
+      "lost_offers": 105,
+      "offer_loss_fraction": 0.015847,
+      "prior_date": "2026-09-20",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.073955,
+      "affected_domains": 23,
+      "common_mode_anomaly": false,
+      "comparable_domains": 311,
+      "comparable_present_offers": 9842,
+      "current_date": "2026-09-22",
+      "lost_offers": 117,
+      "offer_loss_fraction": 0.011888,
+      "prior_date": "2026-09-21",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.070288,
+      "affected_domains": 22,
+      "common_mode_anomaly": false,
+      "comparable_domains": 313,
+      "comparable_present_offers": 11832,
+      "current_date": "2026-09-23",
+      "lost_offers": 361,
+      "offer_loss_fraction": 0.03051,
+      "prior_date": "2026-09-22",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.058608,
+      "affected_domains": 16,
+      "common_mode_anomaly": false,
+      "comparable_domains": 273,
+      "comparable_present_offers": 7697,
+      "current_date": "2026-09-24",
+      "lost_offers": 178,
+      "offer_loss_fraction": 0.023126,
+      "prior_date": "2026-09-23",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.051195,
+      "affected_domains": 15,
+      "common_mode_anomaly": false,
+      "comparable_domains": 293,
+      "comparable_present_offers": 7301,
+      "current_date": "2026-09-25",
+      "lost_offers": 199,
+      "offer_loss_fraction": 0.027257,
+      "prior_date": "2026-09-24",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.04428,
+      "affected_domains": 12,
+      "common_mode_anomaly": false,
+      "comparable_domains": 271,
+      "comparable_present_offers": 8403,
+      "current_date": "2026-09-26",
+      "lost_offers": 35,
+      "offer_loss_fraction": 0.004165,
+      "prior_date": "2026-09-25",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.239382,
+      "affected_domains": 62,
+      "common_mode_anomaly": false,
+      "comparable_domains": 259,
+      "comparable_present_offers": 8527,
+      "current_date": "2026-09-27",
+      "lost_offers": 954,
+      "offer_loss_fraction": 0.11188,
+      "prior_date": "2026-09-26",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.064103,
+      "affected_domains": 15,
+      "common_mode_anomaly": false,
+      "comparable_domains": 234,
+      "comparable_present_offers": 10532,
+      "current_date": "2026-09-28",
+      "lost_offers": 404,
+      "offer_loss_fraction": 0.038359,
+      "prior_date": "2026-09-27",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.053719,
+      "affected_domains": 13,
+      "common_mode_anomaly": false,
+      "comparable_domains": 242,
+      "comparable_present_offers": 8127,
+      "current_date": "2026-09-29",
+      "lost_offers": 85,
+      "offer_loss_fraction": 0.010459,
+      "prior_date": "2026-09-28",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.060729,
+      "affected_domains": 15,
+      "common_mode_anomaly": false,
+      "comparable_domains": 247,
+      "comparable_present_offers": 8229,
+      "current_date": "2026-09-30",
+      "lost_offers": 43,
+      "offer_loss_fraction": 0.005225,
+      "prior_date": "2026-09-29",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.078571,
+      "affected_domains": 22,
+      "common_mode_anomaly": false,
+      "comparable_domains": 280,
+      "comparable_present_offers": 10909,
+      "current_date": "2026-10-01",
+      "lost_offers": 78,
+      "offer_loss_fraction": 0.00715,
+      "prior_date": "2026-09-30",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.130841,
+      "affected_domains": 42,
+      "common_mode_anomaly": false,
+      "comparable_domains": 321,
+      "comparable_present_offers": 9649,
+      "current_date": "2026-10-02",
+      "lost_offers": 605,
+      "offer_loss_fraction": 0.062701,
+      "prior_date": "2026-10-01",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.042802,
+      "affected_domains": 11,
+      "common_mode_anomaly": false,
+      "comparable_domains": 257,
+      "comparable_present_offers": 5487,
+      "current_date": "2026-10-03",
+      "lost_offers": 122,
+      "offer_loss_fraction": 0.022234,
+      "prior_date": "2026-10-02",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.064394,
+      "affected_domains": 17,
+      "common_mode_anomaly": false,
+      "comparable_domains": 264,
+      "comparable_present_offers": 8296,
+      "current_date": "2026-10-04",
+      "lost_offers": 64,
+      "offer_loss_fraction": 0.007715,
+      "prior_date": "2026-10-03",
+      "thresholds": {
+        "affected_domain_fraction": 0.15,
+        "offer_loss_fraction": 0.15
+      }
+    },
+    {
+      "affected_domain_fraction": 0.06875,
+      "affected_domains": 22,
+      "common_mode_anomaly": false,
+      "comparable_domains": 320,
+      "comparable_present_offers": 12351,
+      "current_date": "2026-10-05",
+      "lost_offers": 266,
+      "offer_loss_fraction": 0.021537,
+      "prior_date": "2026-10-04",
       "thresholds": {
         "affected_domain_fraction": 0.15,
         "offer_loss_fraction": 0.15

@@ -1291,6 +1291,101 @@
           "call_count_source": "manifest.merchants_probed",
           "merchant_probe_calls": 486,
           "observation_date": "2026-09-15"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-17"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-18"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-19"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-20"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-21"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-22"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-23"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-24"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-25"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-26"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-27"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-28"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-29"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 486,
+          "observation_date": "2026-09-30"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 485,
+          "observation_date": "2026-10-01"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 485,
+          "observation_date": "2026-10-02"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 484,
+          "observation_date": "2026-10-03"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 484,
+          "observation_date": "2026-10-04"
+        },
+        {
+          "call_count_source": "manifest.merchants_probed",
+          "merchant_probe_calls": 484,
+          "observation_date": "2026-10-05"
         }
       ],
       "replay_unit": "one merchant-targeted catalog probe",
@@ -1305,8 +1400,8 @@
           "cost_per_merchant_probe_minor": 252.275,
           "cost_per_merchant_probe_usd": 2.52275,
           "cost_scenario": "catalog_expansion",
-          "total_cost_minor": 1667790.025,
-          "total_cost_usd": 16677.90025
+          "total_cost_minor": 3995279.175,
+          "total_cost_usd": 39952.79175
         },
         {
           "cost_components_minor_per_probe": {
@@ -1318,8 +1413,8 @@
           "cost_per_merchant_probe_minor": 1021.0,
           "cost_per_merchant_probe_usd": 10.21,
           "cost_scenario": "agentic_review_2m",
-          "total_cost_minor": 6749831.0,
-          "total_cost_usd": 67498.31
+          "total_cost_minor": 16169577.0,
+          "total_cost_usd": 161695.77
         },
         {
           "cost_components_minor_per_probe": {
@@ -1331,12 +1426,12 @@
           "cost_per_merchant_probe_minor": 2555.5,
           "cost_per_merchant_probe_usd": 25.555,
           "cost_scenario": "long_horizon_research_5m",
-          "total_cost_minor": 16894410.5,
-          "total_cost_usd": 168944.105
+          "total_cost_minor": 40471453.5,
+          "total_cost_usd": 404714.535
         }
       ],
       "status": "declared_historical_cost_overlay",
-      "total_merchant_probe_calls": 6611
+      "total_merchant_probe_calls": 15837
     },
     "excluded_dates": {
       "2026-09-16": {
@@ -1354,9 +1449,28 @@
       "2026-09-10",
       "2026-09-11",
       "2026-09-14",
-      "2026-09-15"
+      "2026-09-15",
+      "2026-09-17",
+      "2026-09-18",
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24",
+      "2026-09-25",
+      "2026-09-26",
+      "2026-09-27",
+      "2026-09-28",
+      "2026-09-29",
+      "2026-09-30",
+      "2026-10-01",
+      "2026-10-02",
+      "2026-10-03",
+      "2026-10-04",
+      "2026-10-05"
     ],
-    "offers_that_reappeared": 135,
+    "offers_that_reappeared": 12680,
     "pandora_replay": {
       "calibration_product_count": 2072,
       "calibration_replay_deck_count": 4016,
@@ -1520,8 +1634,8 @@
       "schema_version": 1,
       "status": "analyzed_frozen_panel_series"
     },
-    "persistent_absence_at_horizon": 1107,
-    "reappearance_events": 260,
+    "persistent_absence_at_horizon": 1809,
+    "reappearance_events": 16741,
     "status": "collected_observability_context"
   }
 }

@@ -17,7 +17,7 @@
       "status": "numerical"
     },
     {
-      "detail": "Lifecycle report retains 10 observation dates and excludes 1 common-mode retrieval discontinuities from offer outcomes.",
+      "detail": "Lifecycle report retains 29 observation dates and excludes 1 common-mode retrieval discontinuities from offer outcomes.",
       "expected": 1,
       "id": "UCP-OBSERVATION-QUALITY-001",
       "limitations": [
@@ -26,7 +26,7 @@
       ],
       "observed": 1,
       "passed": true,
-      "scope": "The September 2026 direct-merchant panel collection and its deterministic lifecycle-quality analysis. It measures catalog observability, not checkout persistence, seller coverage, or the recalled Pandora policy outcome.",
+      "scope": "The September 3 through October 5, 2026 direct-merchant panel collection and its deterministic lifecycle-quality analysis. It measures catalog observability, not checkout persistence, seller coverage, or the frozen September recalled Pandora policy outcome.",
       "site_visible": true,
       "statement": "The direct-merchant UCP panel series detects and excludes common-mode retrieval discontinuities instead of treating them as merchant-offer disappearance.",
       "status": "numerical"
