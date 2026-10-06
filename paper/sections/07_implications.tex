@@ -19,3 +19,9 @@ Retain a best offer, keep calibration separate from evaluation, and include insp
 cost in total acquisition cost. At near-zero cost, search-all is not reliably worse;
 at exactly zero cost it is reliably better. As the cost rises, adaptation earns its
 complexity by stopping selectively.
+
+For agent hosts, the release also provides the \texttt{agent-shopping-search-or-stop}
+ procedure through Skills.sh. The procedure directs an agent to invoke the versioned
+ decision runtime with same-product calibration and declared permits; it does not
+ dispatch merchant calls, validate checkout terms, or authorize a purchase. This is an
+ implementation aid, not additional evidence for the replayed empirical comparison.

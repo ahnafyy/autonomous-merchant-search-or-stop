@@ -1,13 +1,13 @@
 {
-  "name": "autonomous-shopping-optimizer",
+  "name": "agentic-shopping-search-or-stop",
   "version": "0.1.0",
-  "description": "Recalled-search hooks and hard-budget shopping optimizer middleware",
+  "description": "Recalled-search runtime for deciding whether an agent should inspect another merchant or stop",
   "keywords": ["ai-agents", "anthropic", "chatgpt", "llm-tools", "shopping", "stopping-rule"],
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/index.d.ts",
-      "import": "./src/index.js"
+      "types": "./src/recalled-search.d.ts",
+      "import": "./src/recalled-search.js"
     }
   },
   "files": ["src", "README.md"],

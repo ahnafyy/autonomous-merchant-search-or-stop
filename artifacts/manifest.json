@@ -13,7 +13,7 @@
     "conformance/merchant-search.json": "45df9253be3382e2fd79a666ab717d17aa68c7e21c8c908cd9a051990a4e68a7",
     "data/summary.csv": "bdaf4a9985d8e610ac380457e467e52b5a2bdba5536014109f965febdd0387d6",
     "results.json": "eb3d8a3115c04aa1eac16b4ada45cf3de6b5ff028ac1934adb582c6691656f3a",
-    "site-data.json": "85e5c6e9ea69c541471aa280add0ef7d9cd7f942991ccdb6126ec0c89d9469cf",
+    "site-data.json": "a989a69bc76d31c4bb107fffb89ff4b5328e74de00feb895b9afdfdfd0e5f203",
     "tables/claim_status.tex": "925d463d4dd73b025e434788231e38648ba98019d2b7a4a8f16cd67f71ea40fd",
     "tables/pandora_study.tex": "ad00d5e65e556c07df88aa168289f3dba233bf1f54979515982ebe3c0ee1f430",
     "tables/project_metadata.tex": "173f9a6acd75efab2e9b022ac6d06b078f87a77b40982acefa8a03a25ff4ec48",
@@ -29,8 +29,8 @@
   },
   "project": {
     "packages": {
-      "javascript": "autonomous-shopping-optimizer",
-      "python": "autonomous-shopping-optimizer"
+      "javascript": "agentic-shopping-search-or-stop",
+      "python": "agentic-shopping-search-or-stop"
     },
     "slug": "autonomous-merchant-search-under-constraints",
     "title": "When Should a Shopping Agent Stop Searching?",

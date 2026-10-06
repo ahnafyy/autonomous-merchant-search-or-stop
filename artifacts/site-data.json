@@ -128,11 +128,11 @@
   },
   "packages": {
     "javascript": {
-      "name": "autonomous-shopping-optimizer"
+      "name": "agentic-shopping-search-or-stop"
     },
     "python": {
-      "distribution": "autonomous-shopping-optimizer",
-      "import_name": "autonomous_shopping_optimizer"
+      "distribution": "agentic-shopping-search-or-stop",
+      "import_name": "agentic_shopping_search_or_stop"
     }
   },
   "project": {

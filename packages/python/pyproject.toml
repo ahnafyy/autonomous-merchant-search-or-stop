@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "autonomous-shopping-optimizer"
+name = "agentic-shopping-search-or-stop"
 version = "0.1.0"
-description = "Recalled-search tool hooks and hard-budget shopping optimizer middleware"
+description = "Recalled-search runtime for deciding whether an agent should inspect another merchant or stop"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -28,7 +28,11 @@ Documentation = "https://ahnafyy.github.io/autonomous-merchant-search-under-cons
 
 [tool.hatch.build.targets.wheel]
 packages = [
+	"src/agentic_shopping_search_or_stop",
 	"src/autonomous_shopping_optimizer",
 	"src/autonomous_shopping",
 ]
-force-include = { "src/autonomous_shopping_optimizer/py.typed" = "autonomous_shopping_optimizer/py.typed" }
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/agentic_shopping_search_or_stop/py.typed" = "agentic_shopping_search_or_stop/py.typed"
+"src/autonomous_shopping_optimizer/py.typed" = "autonomous_shopping_optimizer/py.typed"

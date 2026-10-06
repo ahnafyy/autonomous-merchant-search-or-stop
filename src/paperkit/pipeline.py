@@ -262,9 +262,9 @@ def build(root: Path, output_dir: Path | None = None) -> Path:
     destination = (output_dir or root / "artifacts").resolve()
     config = ProjectConfig.from_file(root / "project.yml")
     claims = load_claims(root / "research" / "claims.yml")
-    analysis = _load_analysis(root, config.python_import_name)
-    closed_form = _load_module(root, config.python_import_name, "closed_form")
-    pandora = _load_module(root, config.python_import_name, "pandora")
+    analysis = _load_analysis(root, config.analysis_import_name)
+    closed_form = _load_module(root, config.analysis_import_name, "closed_form")
+    pandora = _load_module(root, config.analysis_import_name, "pandora")
     results = analysis.run_analysis(seed=config.random_seed)
     evaluations = evaluate_claims(results, claims)
 

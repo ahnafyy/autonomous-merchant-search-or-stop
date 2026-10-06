@@ -49,10 +49,11 @@ release:
       costs do not reliably separate arms.
 packages:
   python:
-    distribution: "autonomous-shopping-optimizer"
-    import_name: "autonomous_shopping_optimizer"
+    distribution: "agentic-shopping-search-or-stop"
+    import_name: "agentic_shopping_search_or_stop"
+    analysis_import_name: "autonomous_shopping_optimizer"
   javascript:
-    name: "autonomous-shopping-optimizer"
+    name: "agentic-shopping-search-or-stop"
 licenses:
   code: "MIT"
   content: "CC-BY-4.0"

@@ -33,9 +33,23 @@ enter the objective for stopping to be meaningful:
 search iff expected improvement from another card > inspection cost
 ```
 
-The Python research package supplies `SellerDeck`, `replay_hidden_cards`,
-`fit_empirical_policy`, and `run_hidden_card_study`. The legacy Python and JavaScript
-hard-budget planners use commit-or-continue semantics and are separate runtime APIs.
+The repository's Python study code supplies `SellerDeck`, `replay_hidden_cards`,
+`fit_empirical_policy`, and `run_hidden_card_study`. The published Python and
+JavaScript distributions are `agentic-shopping-search-or-stop`: they implement the
+recalled `SEARCH`/`STOP` rule above for agent hosts.
+
+## Agent Skill
+
+For agent hosts, install the `agent-shopping-search-or-stop` procedure from
+Skills.sh:
+
+```bash
+npx skills add ahnafyy/autonomous-merchant-search-under-constraints
+```
+
+It guides an agent to call the versioned runtime decision tool with calibrated
+same-product prices and declared permits. The skill does not search merchants, hold
+credentials, or authorize a purchase; those remain host responsibilities.
 
 ## Reproduce
 

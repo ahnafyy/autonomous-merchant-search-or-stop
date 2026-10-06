@@ -61,13 +61,13 @@ def test_build_is_deterministic_and_claims_pass(tmp_path: Path) -> None:
         "UCP-PANDORA-REPLAY-001": "numerical",
     }
     assert site_data["packages"]["python"]["distribution"] == (
-        "autonomous-shopping-optimizer"
+        "agentic-shopping-search-or-stop"
     )
     assert site_data["packages"]["python"]["import_name"] == (
-        "autonomous_shopping_optimizer"
+        "agentic_shopping_search_or_stop"
     )
     assert site_data["packages"]["javascript"]["name"] == (
-        "autonomous-shopping-optimizer"
+        "agentic-shopping-search-or-stop"
     )
     metadata = (first / "tables" / "project_metadata.tex").read_text(encoding="utf-8")
     assert "\\newcommand{\\PaperTitle}" in metadata
