@@ -3,48 +3,53 @@ import RecalledSearchWorkbench from "../components/RecalledSearchWorkbench.astro
 import ResearchLayout from "../layouts/ResearchLayout.astro";
 import data from "../generated/site-data.json";
 
-const { claims, links, packages, release, results } = data;
+const { claims, links, packages, project, release, results } = data;
 const basePath = import.meta.env.BASE_URL;
-const paperHref = `${basePath}paper/`;
+const siteRoot = basePath.endsWith("/") ? basePath : `${basePath}/`;
+const paperHref = `${siteRoot}paper/`;
 const shopify = results.shopify_global_catalog;
+const shopifyCollection = shopify.report.collection;
+const ucpPanel = results.ucp_direct_panels;
 const ucpReplay = results.ucp_direct_panels.pandora_replay;
+const totalUcpClusterCount = ucpReplay.calibration_product_count + ucpReplay.held_out_product_count;
 const primaryClaim = claims.find((claim) => claim.id === "UCP-PANDORA-REPLAY-001");
 const sensitivityClaim = claims.find((claim) => claim.id === "UCP-MARKET-RATE-SENSITIVITY-001");
 const shopifyClaim = claims.find((claim) => claim.id === "PANDORA-ADVANTAGE-001");
 ---
 
 <ResearchLayout
-  title="Agentic Shopping: Search or Stop"
-  description="A deterministic, budget-aware decision runtime for shopping agents."
+  title={project.title}
+  description={`${project.title}: computational research and an open-source package for budget-aware shopping-agent search.`}
 >
   <header class="topbar">
     <div class="journal-mark">
       <a class="wordmark" href={basePath} aria-label="Agentic Shopping: Search or Stop, home">Search or Stop</a>
-      <span>Decision runtime for shopping agents</span>
+      <span>Research paper + open-source package</span>
     </div>
     <nav aria-label="Primary navigation">
-      <a href="#try">Try it</a>
-      <a href="#install">Install</a>
-      <a href="#evidence">Evidence</a>
       <a href={paperHref}>Paper</a>
+      <a href="#package">Package</a>
+      <a href="#try">Decision tool</a>
+      <a href="#evidence">Evidence</a>
       <a href={links.repository}>GitHub</a>
     </nav>
   </header>
 
   <main id="top">
-    <section class="hero product-hero" aria-labelledby="product-title">
+    <section class="hero product-hero" aria-labelledby="research-title">
       <div class="product-intro">
         <div class="article-kicker">
-          <span>Python + JavaScript + Agent Skill</span>
+          <span>Computational research</span>
+          <span>Python + JavaScript package</span>
+          <span>Agent Skill</span>
           <span>Version {release.version}</span>
-          <span>MIT licensed</span>
         </div>
-        <h1 id="product-title">Know when one more seller is worth it.</h1>
-        <p class="subtitle">A deterministic decision layer for shopping agents that balances expected savings against time, tokens, API calls, and money.</p>
-        <p class="product-summary">Keep merchant tools and purchase authority in your host. Give the model a narrow, auditable <code>SEARCH</code> or <code>STOP</code> tool instead of asking it to improvise the economics.</p>
+        <h1 id="research-title">{project.title}</h1>
+        <p class="subtitle">{project.subtitle}</p>
+        <p class="product-summary">This paper evaluates when selective stopping beats search-all under declared inspection costs. Its companion open-source Python and JavaScript package provides a deterministic, auditable <code>SEARCH</code> or <code>STOP</code> decision for shopping agents.</p>
         <div class="product-actions">
-          <a class="action-link action-link--primary" href="#try">Try the decision tool</a>
-          <a class="action-link" href="#install">Choose an integration</a>
+          <a class="action-link action-link--primary" href={paperHref}>Read the paper</a>
+          <a class="action-link" href="#package">Explore the package</a>
         </div>
       </div>
       <div id="try" class="product-tool">
@@ -52,10 +57,10 @@ const shopifyClaim = claims.find((claim) => claim.id === "PANDORA-ADVANTAGE-001"
       </div>
     </section>
 
-    <section class="section" id="install" aria-labelledby="install-title">
+    <section class="section" id="package" aria-labelledby="install-title">
       <div class="section__heading">
         <p class="section-number">1</p>
-        <div><span class="eyebrow">Install</span><h2 id="install-title">Use it from your stack</h2></div>
+        <div><span class="eyebrow">Research package</span><h2 id="install-title">Run the decision rule in your stack</h2></div>
       </div>
       <div class="integration-grid">
         <article class="integration">
@@ -87,10 +92,10 @@ const shopifyClaim = claims.find((claim) => claim.id === "PANDORA-ADVANTAGE-001"
       <p class="section-intro">The runtime does not claim that adaptive stopping always wins. Its value appears when inspections have material cost; at zero cost, opening every feasible seller is the correct baseline.</p>
       <div class="evidence-grid">
         <article class="evidence-panel evidence-panel--primary">
-          <span class="evidence-panel__label">Primary held-out result</span>
-          <h3>{ucpReplay.held_out_product_count.toLocaleString()} SKU clusters</h3>
+          <span class="evidence-panel__label">UCP panel study</span>
+          <h3>{totalUcpClusterCount.toLocaleString()} SKU clusters</h3>
           <p>{primaryClaim?.detail}</p>
-          <small>Declared rate-card scenarios, not observed billing. Catalog cards are not verified checkout offers.</small>
+          <small>{ucpReplay.calibration_product_count.toLocaleString()} calibration, {ucpReplay.held_out_product_count.toLocaleString()} held out across 10 registered quality dates. {ucpPanel.cost_overlay.total_merchant_probe_calls.toLocaleString()} merchant probes across {ucpPanel.included_lifecycle_dates.length} included lifecycle dates.</small>
         </article>
         <article class="evidence-panel">
           <span class="evidence-panel__label">Boundary result</span>
@@ -100,9 +105,9 @@ const shopifyClaim = claims.find((claim) => claim.id === "PANDORA-ADVANTAGE-001"
         </article>
         <article class="evidence-panel evidence-panel--caution">
           <span class="evidence-panel__label">Exploratory replication</span>
-          <h3>{shopify.held_out_product_count} Shopify products</h3>
+          <h3>{shopify.product_deck_count} Shopify decks · {shopify.seller_card_count} seller cards</h3>
           <p>{shopifyClaim?.detail}</p>
-          <small>Title identity changed after collection; only the highest-cost scenario favors adaptive stopping.</small>
+          <small>{shopifyCollection.eligible_offer_row_count.toLocaleString()} retained offer rows from {shopifyCollection.completed_query_count} of {shopifyCollection.planned_query_count} queries. Deck split: {shopify.calibration_product_count} calibration, {shopify.held_out_product_count} held out; title identity changed after collection.</small>
         </article>
       </div>
       <p class="evidence-link"><a href={paperHref}>Read the paper, intervals, methods, and executable claim ledger</a></p>
