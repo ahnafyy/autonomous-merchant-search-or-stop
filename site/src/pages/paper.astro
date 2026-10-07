@@ -19,7 +19,7 @@ const studyRows = shopify.cost_results ?? [];
       <span>Research paper</span>
     </div>
     <nav aria-label="Paper navigation">
-      <a href={basePath}>Product</a>
+      <a href={basePath}>Overview</a>
       <a href="#model">Model</a>
       <a href="#results">Results</a>
       <a href="#claims">Claims</a>
@@ -87,5 +87,5 @@ const studyRows = shopify.cost_results ?? [];
     </section>
   </main>
 
-  <footer><div><p class="footer-title">{project.title}</p><p>{authorNames} · Version {release.version}</p></div><p><a href={basePath}>Product</a> · <a href={links.repository}>Repository</a></p></footer>
+  <footer><div><p class="footer-title">{project.title}</p><p>{authorNames} · Version {release.version}</p></div><p><a href={basePath}>Overview</a> · <a href={links.repository}>Repository</a></p></footer>
 </ResearchLayout>
